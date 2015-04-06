@@ -12,7 +12,7 @@ from flask import Blueprint
 from minicommunity.minicommunity_logger import Log
 
 minicommunity = Blueprint('minicommunity', __name__,
-                     template_folder='../templates', static_folder='../static')
+                     template_folder='templates', static_folder='static')
 
 Log.info('static folder : %s' % minicommunity.static_folder)
 Log.info('template folder : %s' % minicommunity.template_folder)

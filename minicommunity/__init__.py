@@ -6,11 +6,11 @@ from flask import Flask
 def create_app(config_filepath='resource/config.cfg'):
     minicommunity_app = Flask(__name__)
 
-    # 기본 설정은 PhotologConfig 객체에 정의되있고 운영 환경 또는 기본 설정을 변경을 하려면
-    # 실행 환경변수인 PHOTOLOG_SETTINGS에 변경할 설정을 담고 있는 파일 경로를 설정 
-#     from photolog.photolog_config import PhotologConfig
-#     photolog_app.config.from_object(PhotologConfig)
-#     photolog_app.config.from_pyfile(config_filepath, silent=True)
+    # 기본 설정은 MinicommunityConfig 객체에 정의되있고 운영 환경 또는 기본 설정을 변경을 하려면
+    # 실행 환경변수인 MINICOMMUNITY_SETTINGS에 변경할 설정을 담고 있는 파일 경로를 설정 
+    from minicommunity.minicommunity_config import MinicommunityConfig
+    minicommunity_app.config.from_object(MinicommunityConfig)
+    minicommunity_app.config.from_pyfile(config_filepath, silent=True)
 #     print_settings(photolog_app.config.iteritems())
         
     # 로그 초기화
