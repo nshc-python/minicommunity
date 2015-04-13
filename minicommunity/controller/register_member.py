@@ -5,19 +5,58 @@ Created on 2015. 4. 6.
 @author: Soobin
 '''
 from minicommunity.minicommunity_blueprint import minicommunity
+from minicommunity.minicommunity_logger import Log
+from minicommunity.minicommunity_database import dao
+from minicommunity.model.member import Member
 
-from flask import request
+from flask import request, url_for
 from flask.templating import render_template
 from wtforms.form import Form
 from wtforms.fields.simple import TextField, PasswordField, HiddenField
 from wtforms import validators
+from werkzeug import generate_password_hash, redirect
+from sqlalchemy.types import DateTime
 
 
-@minicommunity.route('/user/register')
-def register_user_form():
+@minicommunity.route('/member/register')
+def register_member_form():
     form = RegisterForm(request.form)
     
     return render_template('register_sample.html', form=form)
+
+@minicommunity.route('/member/register_proc',methods=['POST'])
+def register_member():
+    '''미니 커뮤니티 사용자 등록하는 액션'''
+    form = RegisterForm(request.form)
+    
+    if form.validate():
+        email = form.email.data
+        nickname = form.nickname.data
+        password = form.password.data
+        password_confirm = form.password_confirm.data
+        
+        try:
+            member = Member(email, generate_password_hash(password), nickname, DateTime.datetime())
+            dao.add(member)
+            dao.commit()
+            
+            Log.debug(member)
+            
+        except Exception as e:
+            error = "DB error occurs" + str(e)
+            Log.error(error)
+            dao.rollback()
+            raise e
+        
+        else:
+            # 성공적으로 사용자 등록이 되면 로그인 화면으로 이동한다.
+            return redirect(url_for('.loginpola',
+                                    register_member_name=nickname))
+            
+    else:
+        return render_template('register_sample.html', form=form)
+            
+            
 
 class RegisterForm(Form):
     # 사용자 등록화면에서 입력값을 검증

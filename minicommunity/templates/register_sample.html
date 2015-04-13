@@ -39,24 +39,109 @@
 		<script type="text/javascript" src="{{ url_for('static',filename='js/gmaps.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static',filename='js/exif.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static',filename='js/binaryajax.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static',filename='js/modal.js') }}"></script>
 		
 	</head>
 	<body>
-<!-- 모달을 켜고 끄는 버튼 -->
-<a href="#myModal" role="button" class="btn" data-toggle="modal">모달 시연 시작</a>
- 
-<!-- 모달 -->
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">모달 제목</h3>
-  </div>
-  <div class="modal-body">
-    <p>한 멋진 본문…</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">닫기</button>
-    <button class="btn btn-primary">변경사항 저장</button>
+	
+<script type=text/javascript>
+  $(function() {
+    var submit_form = function(e) {
+      if ($('input[email=email]').val() != '') {
+        $.ajax({
+        	url         : '/member/check_email'
+           ,type        : 'POST'
+           ,cache       : false
+           ,data        : JSON.stringify({
+        	   username: $('input[name=username]').val()
+             })
+           ,contentType : 'application/json; charset=utf-8'
+           ,dataType    : 'json'
+           ,success     : function(data) {
+        	   username = $('input[name=username]').val();
+        	   if (data.result) {
+        	       
+                   $('#regist').modal('hide');
+                   
+                   bootbox.alert(username + '는 사용 가능한 아이디입니다.', function() {
+                       $('#regist').modal('show');
+                	   $('input[name=username_check]').val('Y');
+                	   $('input[name=email]').focus().select();
+                   
+                   });
+        	   } else {
+        	       $('#regist').modal('hide');
+                   
+                   bootbox.alert(username + '는 이미 사용중입니다. 다른 아이디를 사용하세요.', function() {
+                       $('#regist').modal('show');
+                	   $('input[name=username]').val('');
+                       $('input[name=username]').focus().select();
+                   });
+        	   }
+             }
+           ,error: function(result) {
+               $('#regist').modal('hide');
+
+        	   bootbox.alert('통신에 오류가 발생했습니다. 잠시 후에 다시 사용하세요.', function() {
+                   $('#regist').modal('show');
+        	   });
+           }
+        });
+        
+      } else { 
+          $('#regist').modal('hide');
+
+    	  bootbox.alert('사용자명을 넣어주세요.', function() {
+              $('#regist').modal('show');
+              $('input[name=username]').focus();
+    	  });
+      }
+      return false;
+    };
+        
+    $('button#username_check').bind('click', submit_form);
+    $('input[name=username]').focus();
+  });
+</script>
+	
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  회원가입하기
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">회원가입</h4>
+      </div>
+      			<div class="modal-body">
+					<!-- 입력창 시작 -->
+					<div class="input-group">
+						<span class="input-group-addon" id="basic-addon_email">이메일</span>
+						<input type="text" class="form-control" placeholder="E-mail" aria-describedby="basic-addon_email">
+					</div><br/>
+					<div class="input-group">
+						<span class="input-group-addon" id="basic-addon_nickname">닉네임</span>
+						<input type="text" class="form-control" placeholder="Nickname" aria-describedby="basic-addon_nickname">
+					</div><br/>
+					<div class="input-group">
+						<span class="input-group-addon" id="basic-addon_password">비밀번호</span>
+						<input type="password" class="form-control" placeholder="비밀번호" aria-describedby="basic-addon_password">
+					</div><br/>
+					<div class="input-group">
+						<span class="input-group-addon" id="basic-addon_password_confirm">비밀번호 확인</span>
+						<input type="password" class="form-control" placeholder="비밀번호 확인" aria-describedby="basic-addon_password_confirm">
+					</div>
+					<!-- 입력창 끝 -->
+				</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-primary">가입</button>
+      </div>
+    </div>
   </div>
 </div>
 </body>
