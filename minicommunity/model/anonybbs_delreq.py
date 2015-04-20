@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Created on 2015. 4. 6.
 
@@ -14,9 +15,9 @@ from minicommunity.model import Base
 class AnonyBBSDelReq(Base):
     __tablename__ = 'anonybbs_delreq'
 
-    bbssno = Column(Integer, ForeignKey(AnonyBBS.sno)), #게시판아이디(순번)
-    reason = Column(Text), #삭제요청사유
-    rdatetime = Column(DateTime) #삭제요청날짜시간
+    bbssno = Column(Integer, ForeignKey(AnonyBBS.sno), primary_key='True') #게시판아이디(순번)
+    reason = Column(Text) #삭제요청사유
+    rdatetime = Column(DateTime, primary_key='True') #삭제요청날짜시간
 
     def __init__(self, bbssno, reason, rdatetime):
         '''

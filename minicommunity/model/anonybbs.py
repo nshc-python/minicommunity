@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Created on 2015. 4. 6.
 
@@ -14,11 +15,11 @@ from minicommunity.model import Base
 class AnonyBBS(Base):
     __tablename__ = 'anonybbs'
 
-    sno = Column(Integer, nullable=False, autoincrement=True, primary_key=False)
-    writeremail = Column(String(20), nullable=False), #작성자 아이디(이메일)
-    content = Column(Text), #내용
-    picturefile = Column(String(30), nullable=False), #사진파일이름
-    cdatetime = Column(DateTime, nullable=False), #생성날짜시간
+    sno = Column(Integer, nullable=False, autoincrement=True, primary_key=True)
+    writeremail = Column(String(20), nullable=False) #작성자 아이디(이메일)
+    content = Column(Text) #내용
+    picturefile = Column(String(30), nullable=False) #사진파일이름
+    cdatetime = Column(DateTime, nullable=False) #생성날짜시간
         
 
 

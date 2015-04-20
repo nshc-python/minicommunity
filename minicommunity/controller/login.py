@@ -35,7 +35,7 @@ def login_required(f):
 
             is_login = False
             if session.sid == session_key and \
-                session.__contains__('user_info') :
+                session.__contains__('member_info') :
                 is_login = True
 
             if not is_login:
@@ -45,7 +45,7 @@ def login_required(f):
             return f(*args, **kwargs)
 
         except Exception as e:
-            Log.error("Minicommunity error occurs : %s" % 
+            Log.error("minicommunity error occurs : %s" % 
                       str(e))
             raise e
 

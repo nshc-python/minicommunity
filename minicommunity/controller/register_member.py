@@ -14,13 +14,16 @@ from flask.templating import render_template
 from wtforms.form import Form
 from wtforms.fields.simple import TextField, PasswordField, HiddenField
 from wtforms import validators
-from werkzeug import generate_password_hash, redirect
+from werkzeug.security import generate_password_hash
+from werkzeug.utils import redirect
 from sqlalchemy.types import DateTime
 
 
 @minicommunity.route('/member/register')
 def register_member_form():
     form = RegisterForm(request.form)
+    
+    Log.debug('aaa')
     
     return render_template('register_sample.html', form=form)
 
@@ -33,7 +36,7 @@ def register_member():
         email = form.email.data
         nickname = form.nickname.data
         password = form.password.data
-        password_confirm = form.password_confirm.data
+#         password_confirm = form.password_confirm.data
         
         try:
             member = Member(email, generate_password_hash(password), nickname, DateTime.datetime())

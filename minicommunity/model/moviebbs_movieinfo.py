@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Created on 2015. 4. 6.
 
@@ -14,11 +15,11 @@ from minicommunity.model import Base
 class MovieBBSMovieInfo(Base):
     __tablename__ = 'moviebbs_movieinfo'
 
-    movieid = Column(Integer, primary_key=True), #영화 할당 아이디
-    title_ko = Column(String(30)), #타이틀(한글)
-    title_en = Column(String(50)), #타이틀(영어)
-    genre = Column(String(20)), #장르
-    publishyear = Column(Integer), #개봉연도
+    movieid = Column(Integer, primary_key=True) #영화 할당 아이디
+    title_ko = Column(String(30)) #타이틀(한글)
+    title_en = Column(String(50)) #타이틀(영어)
+    genre = Column(String(20)) #장르
+    publishyear = Column(Integer) #개봉연도
     poster_thumbfile = Column(String(30)) #포스터썸네일
 
     def __init__(self, movieid, title_ko, title_en, genre, publishyear, poster_thumbfile):
