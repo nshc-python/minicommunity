@@ -128,6 +128,7 @@
 2015-04-13 21:12:40,210 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
 2015-04-13 21:12:40,210 - INFO - template folder : templates
 >>>>>>> branch 'master' of https://github.com/nshc-python/minicommunity.git
+<<<<<<< HEAD
 2015-04-20 19:32:27,892 - INFO - static folder : C:\MyData\Study\Python\flask\workspace\minicommunity\minicommunity\static
 2015-04-20 19:32:27,904 - INFO - template folder : templates
 2015-04-20 19:32:29,319 - INFO - static folder : C:\MyData\Study\Python\flask\workspace\minicommunity\minicommunity\static
@@ -138,3 +139,94 @@
 2015-04-20 20:47:29,595 - INFO - template folder : templates
 2015-04-20 20:47:29,970 - INFO - static folder : C:\MyData\Study\Python\flask\workspace\minicommunity\minicommunity\static
 2015-04-20 20:47:29,970 - INFO - template folder : templates
+=======
+2015-04-20 19:36:07,206 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-20 19:36:07,206 - INFO - template folder : templates
+2015-04-20 19:36:07,567 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-20 19:36:07,567 - INFO - template folder : templates
+2015-04-20 19:36:18,035 - INFO - (GET)next_url is 
+2015-04-20 19:36:39,652 - INFO - (GET)next_url is 
+2015-04-20 21:12:34,659 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-20 21:12:34,659 - INFO - template folder : templates
+2015-04-20 21:14:57,654 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-20 21:14:57,654 - INFO - template folder : templates
+2015-04-20 21:15:44,509 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-20 21:15:44,509 - INFO - template folder : templates
+2015-04-20 21:23:00,833 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-20 21:23:00,833 - INFO - template folder : templates
+2015-04-20 21:23:01,092 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-20 21:23:01,092 - INFO - template folder : templates
+>>>>>>> branch 'master' of https://github.com/nshc-python/minicommunity.git
+2015-04-21 02:29:26,947 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:29:26,947 - INFO - template folder : templates
+2015-04-21 02:29:28,157 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:29:28,157 - INFO - template folder : templates
+2015-04-21 02:30:13,529 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:30:13,532 - INFO - template folder : templates
+2015-04-21 02:30:30,668 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:30:30,670 - INFO - template folder : templates
+2015-04-21 02:30:30,947 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:30:30,947 - INFO - template folder : templates
+2015-04-21 02:32:17,512 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:32:17,512 - INFO - template folder : templates
+2015-04-21 02:32:17,803 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:32:17,805 - INFO - template folder : templates
+2015-04-21 02:34:12,279 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:34:12,280 - INFO - template folder : templates
+2015-04-21 02:34:12,565 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:34:12,565 - INFO - template folder : templates
+2015-04-21 02:35:32,838 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:35:32,839 - INFO - template folder : templates
+2015-04-21 02:35:33,128 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:35:33,128 - INFO - template folder : templates
+2015-04-21 02:38:51,710 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:38:51,710 - INFO - template folder : templates
+2015-04-21 02:39:14,309 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:39:14,309 - INFO - template folder : templates
+2015-04-21 02:40:14,671 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:40:14,684 - INFO - template folder : templates
+2015-04-21 02:40:27,569 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:40:27,571 - INFO - template folder : templates
+2015-04-21 02:40:27,855 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:40:27,855 - INFO - template folder : templates
+2015-04-21 02:40:45,697 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:40:45,697 - INFO - template folder : templates
+2015-04-21 02:40:51,588 - DEBUG - aaa
+2015-04-21 02:41:36,505 - DEBUG - aaa
+2015-04-21 02:42:07,056 - DEBUG - aaa
+2015-04-21 02:42:32,342 - DEBUG - aaa
+2015-04-21 02:44:00,372 - DEBUG - aaa
+2015-04-21 02:44:26,532 - DEBUG - aaa
+2015-04-21 02:44:54,153 - DEBUG - aaa
+2015-04-21 02:45:02,523 - DEBUG - aaa
+2015-04-21 02:45:47,266 - DEBUG - aaa
+2015-04-21 02:49:55,582 - DEBUG - aaa
+2015-04-21 02:50:12,450 - DEBUG - aaa
+2015-04-21 02:50:30,802 - DEBUG - aaa
+2015-04-21 02:52:40,519 - DEBUG - aaa
+2015-04-21 02:54:07,045 - DEBUG - aaa
+2015-04-21 02:54:26,415 - DEBUG - aaa
+2015-04-21 02:57:11,651 - DEBUG - aaa
+2015-04-21 02:57:51,743 - DEBUG - aaa
+2015-04-21 02:58:06,516 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:58:06,516 - INFO - template folder : templates
+2015-04-21 02:58:07,114 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 02:58:07,114 - INFO - template folder : templates
+2015-04-21 02:58:08,509 - DEBUG - aaa
+2015-04-21 02:58:14,522 - ERROR - 'NoneType' object has no attribute 'query'
+2015-04-21 03:00:36,417 - ERROR - 'NoneType' object has no attribute 'query'
+2015-04-21 03:04:38,391 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 03:04:38,391 - INFO - template folder : templates
+2015-04-21 03:04:40,746 - DEBUG - aaa
+2015-04-21 03:04:45,667 - DEBUG - AAAAAAAAAAAAAAAAAAAA
+2015-04-21 03:04:45,667 - ERROR - 'NoneType' object has no attribute 'query'
+2015-04-21 03:05:06,443 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 03:05:06,443 - INFO - template folder : templates
+2015-04-21 03:11:00,216 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 03:11:00,216 - INFO - template folder : templates
+2015-04-21 03:22:45,516 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 03:22:45,516 - INFO - template folder : templates
+2015-04-21 03:22:45,982 - INFO - static folder : C:\Users\Soobin\git\minicommunity\minicommunity\static
+2015-04-21 03:22:45,982 - INFO - template folder : templates
+2015-04-21 03:22:54,551 - ERROR - 'NoneType' object has no attribute 'query'
+2015-04-21 03:22:54,562 - DEBUG - aaa

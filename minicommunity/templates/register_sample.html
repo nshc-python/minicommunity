@@ -120,30 +120,39 @@
       			<div class="modal-body">
 					<!-- 입력창 시작 -->
 					<div class="input-group">
-						 <span class="input-group-addon" id="basic-addon_email">이메일</span>
-						<!--<input type="text" class="form-control" placeholder="E-mail" aria-describedby="basic-addon_email">
-					
-						<button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
-확인
-</button> -->
-    <input type="text" class="form-control" placeholder="Search">
-  <button id="email_check" type="submit" class="btn btn-default">확인</button>
+						<span class="input-group-addon" id="basic-addon_email">이메일</span>
+						<div class="input-group">
+							<input type="text" class="form-control" name="email" placeholder="E-mail">
+							<span class="input-group-btn">
+								<button id="email_check" class="btn btn-default" type="button">중복확인</button>
+							</span>
+						</div>
+						<!-- /input-group -->
 					</div>
-					<!-- <div class="input-append">
-					<button id="email_check" class="btn btn-primary">확인</button>
-					</div> -->
 					<br/>
 					<div class="input-group">
 						<span class="input-group-addon" id="basic-addon_nickname">닉네임</span>
-						<input type="text" class="form-control" placeholder="Nickname" aria-describedby="basic-addon_nickname">
-					</div><br/>
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Nickname">
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button">중복확인</button>
+							</span>
+						</div>
+						<!-- /input-group -->
+					</div>
+					<br/>
 					<div class="input-group">
 						<span class="input-group-addon" id="basic-addon_password">비밀번호</span>
-						<input type="password" class="form-control" placeholder="비밀번호" aria-describedby="basic-addon_password">
-					</div><br/>
+						<div class="input-group">
+							<input type="password" class="form-control" placeholder="비밀번호" aria-describedby="basic-addon_password">
+						</div>
+					</div>
+					<br/>
 					<div class="input-group">
 						<span class="input-group-addon" id="basic-addon_password_confirm">비밀번호 확인</span>
-						<input type="password" class="form-control" placeholder="비밀번호 확인" aria-describedby="basic-addon_password_confirm">
+						<div class="input-group">
+							<input type="password" class="form-control" placeholder="비밀번호 확인" aria-describedby="basic-addon_password_confirm">
+						</div>
 					</div>
 					<!-- 입력창 끝 -->
 				</div>

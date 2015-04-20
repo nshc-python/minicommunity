@@ -13,4 +13,4 @@
 from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
-__all__ = ['member', 'anonybbs', 'anonybbs_delreq', 'moviebbs_movie', 'moviebbs_comment']
+__all__ = ['member', 'anonybbs', 'anonybbs_delreq', 'moviebbs_movieinfo', 'moviebbs_comment']
