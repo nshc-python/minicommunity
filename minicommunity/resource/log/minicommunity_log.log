@@ -18,6 +18,7 @@
 2015-04-10 00:43:16,191 - INFO - template folder : templates
 2015-04-10 00:43:16,667 - INFO - static folder : C:\MyData\Study\Python\flask\workspace\minicommunity\minicommunity\static
 2015-04-10 00:43:16,667 - INFO - template folder : templates
+<<<<<<< HEAD
 2015-04-13 19:37:33,006 - INFO - static folder : C:\MyData\Study\Python\flask\workspace\minicommunity\minicommunity\static
 2015-04-13 19:37:33,006 - INFO - template folder : templates
 2015-04-13 19:37:33,233 - INFO - static folder : C:\MyData\Study\Python\flask\workspace\minicommunity\minicommunity\static
@@ -34,3 +35,96 @@
 2015-04-13 20:38:35,967 - INFO - template folder : templates
 2015-04-13 20:38:36,319 - INFO - static folder : C:\MyData\Study\Python\flask\workspace\minicommunity\minicommunity\static
 2015-04-13 20:38:36,335 - INFO - template folder : templates
+=======
+2015-04-13 19:51:53,287 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 19:51:53,287 - INFO - template folder : templates
+2015-04-13 19:51:53,449 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 19:51:53,449 - INFO - template folder : templates
+2015-04-13 19:53:05,999 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 19:53:05,999 - INFO - template folder : templates
+2015-04-13 19:58:18,167 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 19:58:18,167 - INFO - template folder : templates
+2015-04-13 19:58:18,340 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 19:58:18,340 - INFO - template folder : templates
+2015-04-13 20:00:25,517 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:00:25,517 - INFO - template folder : templates
+2015-04-13 20:00:25,655 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:00:25,655 - INFO - template folder : templates
+2015-04-13 20:01:31,465 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:01:31,465 - INFO - template folder : templates
+2015-04-13 20:02:35,711 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:02:35,711 - INFO - template folder : templates
+2015-04-13 20:03:37,549 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:03:37,549 - INFO - template folder : templates
+2015-04-13 20:04:33,217 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:04:33,217 - INFO - template folder : templates
+2015-04-13 20:04:33,358 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:04:33,358 - INFO - template folder : templates
+2015-04-13 20:04:39,910 - INFO - (GET)next_url is 
+2015-04-13 20:06:23,316 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:06:23,316 - INFO - template folder : templates
+2015-04-13 20:06:50,634 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:06:50,634 - INFO - template folder : templates
+2015-04-13 20:08:24,572 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:08:24,573 - INFO - template folder : templates
+2015-04-13 20:09:00,602 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:09:00,602 - INFO - template folder : templates
+2015-04-13 20:09:27,912 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:09:27,912 - INFO - template folder : templates
+2015-04-13 20:09:40,532 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:09:40,532 - INFO - template folder : templates
+2015-04-13 20:09:52,014 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:09:52,014 - INFO - template folder : templates
+2015-04-13 20:09:53,888 - INFO - (GET)next_url is 
+2015-04-13 20:10:04,710 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:10:04,710 - INFO - template folder : templates
+2015-04-13 20:10:06,165 - INFO - (GET)next_url is 
+2015-04-13 20:10:19,595 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:10:19,595 - INFO - template folder : templates
+2015-04-13 20:10:25,091 - INFO - (GET)next_url is 
+2015-04-13 20:13:36,009 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:13:36,009 - INFO - template folder : templates
+2015-04-13 20:41:32,744 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:41:32,744 - INFO - template folder : templates
+2015-04-13 20:42:15,231 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:42:15,231 - INFO - template folder : templates
+2015-04-13 20:42:15,361 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:42:15,361 - INFO - template folder : templates
+2015-04-13 20:42:35,833 - INFO - (GET)next_url is 
+2015-04-13 20:45:02,044 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:45:02,044 - INFO - template folder : templates
+2015-04-13 20:45:02,197 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:45:02,197 - INFO - template folder : templates
+2015-04-13 20:45:05,928 - INFO - (GET)next_url is 
+2015-04-13 20:45:56,387 - INFO - (GET)next_url is 
+2015-04-13 20:46:16,686 - INFO - (GET)next_url is 
+2015-04-13 20:46:35,548 - INFO - (GET)next_url is 
+2015-04-13 20:54:19,737 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:54:19,737 - INFO - template folder : templates
+2015-04-13 20:54:19,902 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:54:19,902 - INFO - template folder : templates
+2015-04-13 20:54:23,332 - INFO - (GET)next_url is 
+2015-04-13 20:57:27,870 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:57:27,870 - INFO - template folder : templates
+2015-04-13 20:57:28,070 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 20:57:28,070 - INFO - template folder : templates
+2015-04-13 20:57:32,328 - INFO - (GET)next_url is 
+2015-04-13 20:59:22,279 - INFO - (GET)next_url is 
+2015-04-13 21:00:34,851 - INFO - (GET)next_url is 
+2015-04-13 21:01:55,344 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 21:01:55,344 - INFO - template folder : templates
+2015-04-13 21:01:55,491 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 21:01:55,491 - INFO - template folder : templates
+2015-04-13 21:01:59,776 - INFO - (GET)next_url is 
+2015-04-13 21:02:01,460 - INFO - (GET)next_url is 
+2015-04-13 21:02:20,582 - INFO - (GET)next_url is 
+2015-04-13 21:04:01,012 - INFO - (GET)next_url is 
+2015-04-13 21:04:20,151 - INFO - (GET)next_url is 
+2015-04-13 21:11:19,250 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 21:11:19,250 - INFO - template folder : templates
+2015-04-13 21:11:19,401 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 21:11:19,401 - INFO - template folder : templates
+2015-04-13 21:11:23,365 - INFO - (GET)next_url is 
+2015-04-13 21:12:40,210 - INFO - static folder : /Users/NSHC_techwriter/git/minicommunity/minicommunity/static
+2015-04-13 21:12:40,210 - INFO - template folder : templates
+>>>>>>> branch 'master' of https://github.com/nshc-python/minicommunity.git
