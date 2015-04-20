@@ -6,11 +6,7 @@ encoding//minicommunity/__init__.py=utf-8
 encoding//minicommunity/controller/__init__.py=utf-8
 encoding//minicommunity/controller/login.py=utf-8
 encoding//minicommunity/controller/loginpola.py=utf-8
-<<<<<<< HEAD
 encoding//minicommunity/controller/register_member.py=utf-8
-=======
-encoding//minicommunity/controller/register_user.py=utf-8
->>>>>>> branch 'master' of https://github.com/nshc-python/minicommunity.git
 encoding//minicommunity/minicommunity_blueprint.py=utf-8
 encoding//minicommunity/minicommunity_config.py=utf-8
 encoding//minicommunity/minicommunity_database.py=utf-8
