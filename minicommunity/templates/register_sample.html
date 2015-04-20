@@ -47,60 +47,60 @@
 <script type=text/javascript>
   $(function() {
     var submit_form = function(e) {
-      if ($('input[email=email]').val() != '') {
+      if ($('input[name=email]').val() != '') {
         $.ajax({
         	url         : '/member/check_email'
            ,type        : 'POST'
            ,cache       : false
            ,data        : JSON.stringify({
-        	   username: $('input[name=username]').val()
+        	   email: $('input[name=email]').val()
              })
            ,contentType : 'application/json; charset=utf-8'
            ,dataType    : 'json'
            ,success     : function(data) {
-        	   username = $('input[name=username]').val();
+        	   email = $('input[name=email]').val();
         	   if (data.result) {
         	       
-                   $('#regist').modal('hide');
+                   $('#register').modal('hide');
                    
-                   bootbox.alert(username + '는 사용 가능한 아이디입니다.', function() {
-                       $('#regist').modal('show');
-                	   $('input[name=username_check]').val('Y');
-                	   $('input[name=email]').focus().select();
+                   bootbox.alert(email + '는 사용 가능한 이메일입니다.', function() {
+                       $('#register').modal('show');
+                	   $('input[name=email_check]').val('Y');
+                	   $('input[name=password]').focus().select();
                    
                    });
         	   } else {
-        	       $('#regist').modal('hide');
+        	       $('#register').modal('hide');
                    
-                   bootbox.alert(username + '는 이미 사용중입니다. 다른 아이디를 사용하세요.', function() {
+                   bootbox.alert(email + '는 이미 사용중입니다. 다른 이메일을 입력하세요.', function() {
                        $('#regist').modal('show');
-                	   $('input[name=username]').val('');
-                       $('input[name=username]').focus().select();
+                	   $('input[name=email]').val('');
+                       $('input[name=email]').focus().select();
                    });
         	   }
              }
            ,error: function(result) {
-               $('#regist').modal('hide');
+               $('#register').modal('hide');
 
         	   bootbox.alert('통신에 오류가 발생했습니다. 잠시 후에 다시 사용하세요.', function() {
-                   $('#regist').modal('show');
+                   $('#register').modal('show');
         	   });
            }
         });
         
       } else { 
-          $('#regist').modal('hide');
+          $('#register').modal('hide');
 
-    	  bootbox.alert('사용자명을 넣어주세요.', function() {
-              $('#regist').modal('show');
-              $('input[name=username]').focus();
+    	  bootbox.alert('이메일을 넣어주세요.', function() {
+              $('#register').modal('show');
+              $('input[name=email]').focus();
     	  });
       }
       return false;
     };
         
-    $('button#username_check').bind('click', submit_form);
-    $('input[name=username]').focus();
+    $('button#email_check').bind('click', submit_form);
+    $('input[name=email]').focus();
   });
 </script>
 	
@@ -120,9 +120,19 @@
       			<div class="modal-body">
 					<!-- 입력창 시작 -->
 					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon_email">이메일</span>
-						<input type="text" class="form-control" placeholder="E-mail" aria-describedby="basic-addon_email">
-					</div><br/>
+						 <span class="input-group-addon" id="basic-addon_email">이메일</span>
+						<!--<input type="text" class="form-control" placeholder="E-mail" aria-describedby="basic-addon_email">
+					
+						<button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+확인
+</button> -->
+    <input type="text" class="form-control" placeholder="Search">
+  <button id="email_check" type="submit" class="btn btn-default">확인</button>
+					</div>
+					<!-- <div class="input-append">
+					<button id="email_check" class="btn btn-primary">확인</button>
+					</div> -->
+					<br/>
 					<div class="input-group">
 						<span class="input-group-addon" id="basic-addon_nickname">닉네임</span>
 						<input type="text" class="form-control" placeholder="Nickname" aria-describedby="basic-addon_nickname">

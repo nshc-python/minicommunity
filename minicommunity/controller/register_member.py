@@ -9,7 +9,7 @@ from minicommunity.minicommunity_logger import Log
 from minicommunity.minicommunity_database import dao
 from minicommunity.model.member import Member
 
-from flask import request, url_for
+from flask import request, url_for, jsonify
 from flask.templating import render_template
 from wtforms.form import Form
 from wtforms.fields.simple import TextField, PasswordField, HiddenField
@@ -55,7 +55,29 @@ def register_member():
             
     else:
         return render_template('register_sample.html', form=form)
-            
+    
+
+@minicommunity.route('/member/check_email', methods=['POST'])
+def check_email():
+    email = request.json['email']
+    #: DB에서 email 중복 확인 
+    if __get_member(email) :
+        return jsonify(result = False)
+    else:
+        return jsonify(result = True)
+
+
+def __get_member(email):
+    try:
+        current_member = dao.query(Member) \
+                            .filter_by(email=email) \
+                            .first()
+        
+        Log.debug(current_member)
+        return current_member
+    except Exception as e:
+        Log.error(str(e))
+        raise e
             
 
 class RegisterForm(Form):
