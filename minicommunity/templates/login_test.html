@@ -1,114 +1,203 @@
-<!doctype html>
-<html>
-	<head>
-	
-			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-			<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+{# <layout 호출> #}
+{% extends "layout.html" %}
+
+{# <윈도우 창에 표시될 이름> #}
+{% block title %}Login{% endblock %} 
+
+
+{# <Header> #}
+
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+
+{# <Body> #}
+
+{% block content %}
+	<div class="container-fluid">
+		<h1><p class="text-center"> Welcome to NSHC Minicommunity <small>당신의 새로운 야머</small> </p></h1>
+		
+		{# <로그인 화면> #} 
+		{% from "_formhelpers.html" import render_field %}
+		<form class="form-horizontal">
+		{# <form name="frm" method="POST" action="{{ url_for('minicommunity.login') }}" accept-charset="UTF-8" onSubmit="return checkLogin(this)"> #}
+			<div class="form-group">
+				{{ render_field(form.email, class="input-block-level", placeholder="Email") }}
+			</div>
 			
-			<title>WELCOME TO NSHC MINICOMMUNITY</title>
-			
-			<meta name="description" content="" />
-			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-			
-			<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
-			<link rel="shortcut icon" href="/favicon.ico" />
-			<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-	
-			<link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}" type="text/css" media="screen" title="photolog" charset="UTF-8" />
-			<link rel="stylesheet" href="{{ url_for('static',filename='css/font-awesome.min.css') }}" type="text/css" media="screen" title="photolog" charset="UTF-8" />
-	        <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap-responsive.css') }}" type="text/css" media="screen" title="photolog" charset="UTF-8" />
-	        <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap-fileupload.min.css') }}" type="text/css" media="screen" title="photolog" charset="UTF-8" />
-	        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}" type="text/css" media="screen" title="photolog" charset="UTF-8" />
-	        <link rel="stylesheet" href="{{ url_for('static',filename='css/placeholder-error.css') }}" type="text/css" media="screen" title="photolog" charset="UTF-8" />
-			
-			<!--[if IE 7]>
-				<link rel="stylesheet" href="{{ url_for('static',filename='css/font-awesome-ie7.min.css')}}">
-			<![endif]-->
+			<div class="form-group">
+              	{{ render_field(form.password, class="input-block-level", placeholder="Password") }}
+          	</div>
+            
+            <div class="form-group">
+              	{{ render_field(form.next_url, value= next_url) }}
+          	</div>
 
-			<!--[if lt IE 9]>
-				<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-			<![endif]-->
-	
-			<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-	        <script type="text/javascript" src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
-	        <script type="text/javascript" src="{{ url_for('static',filename='js/bootstrap-fileupload.min.js') }}"></script>
-			<script type="text/javascript" src="{{ url_for('static',filename='js/bootbox.min.js') }}"></script>
-			<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
-			<script type="text/javascript" src="{{ url_for('static',filename='js/gmaps.js') }}"></script>
-	        <script type="text/javascript" src="{{ url_for('static',filename='js/exif.js') }}"></script>
-	        <script type="text/javascript" src="{{ url_for('static',filename='js/binaryajax.js') }}"></script>
-			
-	
-</head>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="remember" value="1" onClick="confirmSave(this)" > ID 기억하기
+						</label>
+					</div>
+				</div>
 
+			<!-- 로그인 및 회원가입 버튼 --> 
+ 			<div class="form-group">
+ 				<div class="col-sm-offset-2 col-sm-10">
+ 					<a href="{{ url_for('minicommunity.login_test') }}" class="btn btn-success" >로그인</a>
+ 					
+ 					<!--회원가입 자바스크립트-->  
+      <script type=text/javascript>
+  $(function() {
+    var submit_form = function(e) {
+      if ($('input[name=email]').val() != '') {
+        $.ajax({
+        	url         : '/member/check_email'
+           ,type        : 'POST'
+           ,cache       : false
+           ,data        : JSON.stringify({
+        	   email: $('input[name=email]').val()
+             })
+           ,contentType : 'application/json; charset=utf-8'
+           ,dataType    : 'json'
+           ,success     : function(data) {
+        	   email = $('input[name=email]').val();
+        	   if (data.result) {
+        	       
+                   $('#register').modal('hide');
+                   
+                   bootbox.alert(email + '는 사용 가능한 이메일입니다.', function() {
+                       $('#register').modal('show');
+                	   $('input[name=email_check]').val('Y');
+                	   $('input[name=password]').focus().select();
+                   
+                   });
+        	   } else {
+        	       $('#register').modal('hide');
+                   
+                   bootbox.alert(email + '는 이미 사용중입니다. 다른 이메일을 입력하세요.', function() {
+                       $('#regist').modal('show');
+                	   $('input[name=email]').val('');
+                       $('input[name=email]').focus().select();
+                   });
+        	   }
+             }
+           ,error: function(result) {
+               $('#register').modal('hide');
 
-<body>
+        	   bootbox.alert('통신에 오류가 발생했습니다. 잠시 후에 다시 사용하세요.', function() {
+                   $('#register').modal('show');
+        	   });
+           }
+        });
+        
+      } else { 
+          $('#register').modal('hide');
 
-<div class="container-fluid">
+    	  bootbox.alert('이메일을 넣어주세요.', function() {
+              $('#register').modal('show');
+              $('input[name=email]').focus();
+    	  });
+      }
+      return false;
+    };
+        
+    $('button#email_check').bind('click', submit_form);
+    $('input[name=email]').focus();
+  });
+</script>
 
-<h1><p class="text-center"> Welcome to NSHC Minicommunity <small>당신의 새로운 야머</small> </p></h1>
+					<!-- 회원가입 자바스크립트 끝-->
+					<!-- 회원가입 버튼 클릭시 모달 팝--> 
+ 					
+ 					<button type="button" class="btn btn-primary btn-danger" data-toggle="modal" data-target="#myModal"> 회원가입하기 </button>
+ 					
+						<!-- 회원가입 모달 -->
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						        <h4 class="modal-title" id="myModalLabel">회원가입</h4>
+						      </div>
+						      			<div class="modal-body">
+											<!-- 입력창 시작 -->
+											<div class="input-group">
+												<span class="input-group-addon" id="basic-addon_email">이메일</span>
+												<div class="input-group">
+													<input type="text" class="form-control" name="email" placeholder="E-mail">
+													<span class="input-group-btn">
+														<button id="email_check" class="btn btn-default" type="button">중복확인</button>
+													</span>
+												</div>
+												<!-- /input-group -->
+											</div>
+											<br/>
+											<div class="input-group">
+												<span class="input-group-addon" id="basic-addon_nickname">닉네임</span>
+												<div class="input-group">
+													<input type="text" class="form-control" placeholder="Nickname">
+													<span class="input-group-btn">
+														<button class="btn btn-default" type="button">중복확인</button>
+													</span>
+												</div>
+												<!-- /input-group -->
+											</div>
+											<br/>
+											<div class="input-group">
+												<span class="input-group-addon" id="basic-addon_password">비밀번호</span>
+												<div class="input-group">
+													<input type="password" class="form-control" placeholder="비밀번호" aria-describedby="basic-addon_password">
+												</div>
+											</div>
+											<br/>
+											<div class="input-group">
+												<span class="input-group-addon" id="basic-addon_password_confirm">비밀번호 확인</span>
+												<div class="input-group">
+													<input type="password" class="form-control" placeholder="비밀번호 확인" aria-describedby="basic-addon_password_confirm">
+												</div>
+											</div>
+											<!-- 입력창 끝 -->
+										</div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+						        <button type="button" class="btn btn-primary">가입</button>
+						      </div>
+						    </div>
+						   </div>     
+						 </div>
+						</div>
+						<!--회원가입 모달 끝-->
+					
+					</div>
+				</div>
+			</div>
+ 					
 
+		</form>
 
-<!--로그인화면-->
-
-<form class="form-horizontal">
-  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-    <div class="col-sm-10">
-      <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-    </div>
-  </div>
-  
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-    <div class="col-sm-10">
-      <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-    </div>
-  </div>
-  
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default">로그인</button>
-      <button type="submit" class="btn btn-default">회원가입</button>
-      <div class="checkbox">
-        <label>
-          <input type="checkbox"> 로그인 유지 
-        </label>
-    </div>
-  </div>
-</div>
-  
-</form>
-
-<!--로그인하기-->
-
-
-
-<!--로그인화면은 여기까지 -->
+<!--로그인 및 회원가입 끝 -->
 
 <!--개발자정보 -->
-<form class="form-horizontal">
-<label for="inputPassword3" class="col-sm-2 control-label">Contact Us</label>
-<div class="col-sm-offset-2 col-sm-10">
-<address>
-  <strong>NSHC Inc.</strong><br>
-  55 Gwangjinmal-gil, Uiwang-si, Gyeonggi-do<br>
-  Republic of Korea<br>
-  <abbr title="Phone">P:</abbr> (031) 458-6456
-  <a href="mailto:#">sbpark@nshc.net</a>
-  <a href="mailto:#">polarhee@nshc.net</a>
-</address>
-</div>
-</form>
+		<form class="form-horizontal">
+		<label for="inputPassword3" class="col-sm-2 control-label">Contact Us</label>
+		<div class="col-sm-offset-2 col-sm-10">
+		<address>
+			<strong>NSHC Inc.</strong><br>
+			  55 Gwangjinmal-gil, Uiwang-si, Gyeonggi-do<br>
+			  Republic of Korea<br>
+			 <abbr title="Phone">P:</abbr> (031) 458-6456
+			 <a href="mailto:#">sbpark@nshc.net</a>
+			 <a href="mailto:#">polarhee@nshc.net</a>
+		</address>
+		</div>
+		</form>
 
 <!--개발자정보 끝-->
 
 
 </div>
 
-</body>
-
-
-
-
-</html>
+{% endblock %}
