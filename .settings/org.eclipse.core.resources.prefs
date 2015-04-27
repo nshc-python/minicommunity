@@ -1,0 +1,24 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=branch 'master' of https\://github.com/nshc-python/minicommunity.git
+eclipse.preferences.version=1
+encoding//minicommunity/__init__.py=utf-8
+encoding//minicommunity/controller/__init__.py=utf-8
+encoding//minicommunity/controller/login.py=utf-8
+encoding//minicommunity/controller/loginpola.py=utf-8
+encoding//minicommunity/controller/register_member.py=utf-8
+encoding//minicommunity/minicommunity_blueprint.py=utf-8
+encoding//minicommunity/minicommunity_config.py=utf-8
+encoding//minicommunity/minicommunity_database.py=utf-8
+encoding//minicommunity/minicommunity_logger.py=utf-8
+encoding//minicommunity/model/__init__.py=utf-8
+encoding//minicommunity/model/anonybbs.py=utf-8
+encoding//minicommunity/model/anonybbs_delreq.py=utf-8
+encoding//minicommunity/model/member.py=utf-8
+encoding//minicommunity/model/moviebbs_comment.py=utf-8
+encoding//minicommunity/model/moviebbs_movieinfo.py=utf-8
+encoding//minicommunity/templates/regist.html=UTF-8
+encoding//minicommunity/templates/regist_sample.html=UTF-8
+encoding//minicommunity/templates/register_sample.html=UTF-8
+encoding/<project>=UTF-8
+encoding/runserver.py=utf-8
