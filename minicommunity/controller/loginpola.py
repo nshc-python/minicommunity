@@ -27,7 +27,7 @@ def login_required(f):
             return f(*args, **kwargs)
          
         except Exception as e:
-            Log.error("Photolog error occurs : %s" % str(e))
+            Log.error("Minicommunity error occurs : %s" % str(e))
             raise e
          
     return decorated_function
@@ -109,3 +109,7 @@ class LoginForm(Form): #로그인에 필요한 정보를 규정
                 validators.Required('비밀번호를 입력해주세요'),
                 validators.Length(min=6, max=20, message='비밀번호를 입력해주셈'),
                 validators.Regexp(r'[A-Za-z0-9]', message='비밀번호를 입력해주셈')])
+    
+    next_url = \
+        TextField('next_url',[
+                              validators.Required('next_url is not found')])
