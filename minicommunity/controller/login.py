@@ -8,6 +8,7 @@ from minicommunity.minicommunity_blueprint import minicommunity
 from minicommunity.model.member import Member
 from minicommunity.minicommunity_database import dao
 from functools import wraps
+from wtforms.fields.simple import HiddenField, PasswordField
    
    
 def login_required(f):
@@ -38,12 +39,11 @@ def login_required(f):
 def login_form(): #로그인 화면을 호출 
     
     next_url = request.args.get('next','')
-    regist_email = request.args.get('regist_email','')
-    update_email = request.args.get('update_email','')
+    regist_member = request.args.get('regist_member','') #welcome user message popup 
     Log.info("(%s)next_url is %s" % (request.method, next_url))
     form = LoginForm(request.form)
     
-    return render_template('login.html', next_url=next_url, form=form, regist_email=regist_email, update_email=update_email)
+    return render_template('login.html', next_url=next_url, form=form, regist_member=regist_member)
 
 @minicommunity.route('/member/login', methods=['post'])
 def login(): #로그인 프로세싱 
@@ -105,11 +105,9 @@ class LoginForm(Form): #로그인에 필요한 정보를 규정
                 validators.Regexp(r'[A-Za-z0-9@-_.]', message='이메일 제대로 써주세요')])
 
     password = \
-        TextField('password',[
+        PasswordField('password',[
                 validators.Required('비밀번호를 입력해주세요'),
                 validators.Length(min=6, max=20, message='비밀번호를 입력해주셈'),
                 validators.Regexp(r'[A-Za-z0-9]', message='비밀번호를 입력해주셈')])
     
-    next_url = \
-        TextField('next_url',[
-                              validators.Required('next_url is not found')])
+    next_url = HiddenField('next_url')
