@@ -1,52 +1,56 @@
-{# <layout 호출> #}
+{# layout 호출 #}
 {% extends "layout.html" %}
 
-{# <윈도우 창에 표시될 이름> #}
+{# 윈도우 창에 표시될 이름 #}
 {% block title %}Login{% endblock %} 
 
 
-{# <Header> #}
+{# Header #}
 
 {% block head %}
   {{ super() }}
 {% endblock %}
 
 
-{# <Body> #}
+{# Body #}
 
 {% block content %}
 	<div class="container-fluid">
-		<h1><p class="text-center"> Welcome to NSHC Minicommunity <small>당신의 새로운 야머</small> </p></h1>
+	<p class="text-center">
+		Welcome to NSHC Minicommunity <small>당신의 새로운 야머</small>
+	</p>
+	
 		
-		{# <로그인 화면> #} 
+		{# 로그인 화면 #} 
 		{% from "_formhelpers.html" import render_field %}
 		<form class="form-horizontal">
-		{# <form name="frm" method="POST" action="{{ url_for('minicommunity.login') }}" accept-charset="UTF-8" onSubmit="return checkLogin(this)"> #}
+		<div class="col-sm-offset-2 col-sm-10">
 			<div class="form-group">
-				{{ render_field(form.email, class="input-block-level", placeholder="Email") }}
+			<label for="exampleInputEmail1">Email address</label>
+				{{ render_field(form.email, class="form-control", placeholder="Email") }}
 			</div>
 			
 			<div class="form-group">
-              	{{ render_field(form.password, class="input-block-level", placeholder="Password") }}
+			<label for="exampleInputPassword1">Password</label>		
+              	{{ render_field(form.password, class="form-control", placeholder="Password") }}
           	</div>
-            
-            <div class="form-group">
+          	            
               	{{ render_field(form.next_url, value= next_url) }}
-          	</div>
 
 			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
 					<div class="checkbox">
 						<label>
 							<input type="checkbox" name="remember" value="1" onClick="confirmSave(this)" > ID 기억하기
 						</label>
 					</div>
-				</div>
+			</div>
+			</div>
+		</form>
 
 			<!-- 로그인 및 회원가입 버튼 --> 
  			<div class="form-group">
  				<div class="col-sm-offset-2 col-sm-10">
- 					<a href="{{ url_for('minicommunity.login_test') }}" class="btn btn-success" >로그인</a>
+ 					<a href="{{ url_for('minicommunity.login') }}" class="btn btn-success" >로그인</a>
  					
  					<!--회원가입 자바스크립트-->  
       <script type=text/javascript>
@@ -182,7 +186,6 @@
 
 <!--개발자정보 -->
 		<form class="form-horizontal">
-		<label for="inputPassword3" class="col-sm-2 control-label">Contact Us</label>
 		<div class="col-sm-offset-2 col-sm-10">
 		<address>
 			<strong>NSHC Inc.</strong><br>
