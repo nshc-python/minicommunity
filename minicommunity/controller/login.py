@@ -1,160 +1,115 @@
 # -*- coding: utf-8 -*-
 
-from flask import render_template, request, current_app, session, redirect, url_for
-from functools import wraps
+from flask import request, render_template, session, url_for, redirect, current_app
 from werkzeug import check_password_hash
-from wtforms import Form, TextField, PasswordField, HiddenField, validators
-
-# from minicommunity.database import dao
+from wtforms import Form, TextField, validators
 from minicommunity.minicommunity_logger import Log
 from minicommunity.minicommunity_blueprint import minicommunity
-# from minicommunity.model.user import User
-
-# @minicommunity.teardown_request
-# def close_db_session(exception=None):
-#     """요청이 완료된 후에 db연결에 사용된 세션을 종료함"""
-#     
-#     try:
-#         dao.remove()
-#     except Exception as e:
-#         Log.error(str(e))
-
-
+from minicommunity.model.member import Member
+from minicommunity.minicommunity_database import dao
+from functools import wraps
+   
+   
 def login_required(f):
-    """현재 사용자가 로그인 상태인지 확인하는 데코레이터
-    로그인 상태에서 접근 가능한 함수에 적용함
-    """
-    
+     
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        try:
+        try: 
             session_key = \
-                request.cookies.get(
-                    current_app.config['SESSION_COOKIE_NAME'])
-
+                request.cookies.get(current_app.config['SESSION_COOKIE_NAME'])
+             
             is_login = False
-            if session.sid == session_key and \
-                session.__contains__('member_info') :
-                is_login = True
-
+            if session.sid == session_key and session.__contains__('user_info') : is_login = True
+             
             if not is_login:
-                return redirect(url_for('.login_form', 
-                                        next=request.url))
-
+                return redirect(url_for('.login_form', next=request.url))
+             
             return f(*args, **kwargs)
-
+         
         except Exception as e:
-            Log.error("minicommunity error occurs : %s" % 
-                      str(e))
+            Log.error("Minicommunity error occurs : %s" % str(e))
             raise e
-
+         
     return decorated_function
-
-
-@minicommunity.route('/')
-@login_required
-def index():
-    """로그인이 성공한 다음에 보여줄 초기 페이지"""
-    return redirect(url_for('.show_all'))
-
-
-@minicommunity.route('/user/login')
-def login_form():
-    """이메일/비밀번호 기반의 로그인 화면을 제공함 """
-
-    next_url = request.args.get('next', '')
-    regist_email = request.args.get('regist_email', '')
-    update_email = request.args.get('update_email', '')
-    Log.info('(%s)next_url is %s' % (request.method, next_url))
     
+
+
+@minicommunity.route('/member/login')
+def login_form(): #로그인 화면을 호출 
+    
+    next_url = request.args.get('next','')
+    regist_email = request.args.get('regist_email','')
+    update_email = request.args.get('update_email','')
+    Log.info("(%s)next_url is %s" % (request.method, next_url))
     form = LoginForm(request.form)
+    
+    return render_template('login.html', next_url=next_url, form=form, regist_email=regist_email, update_email=update_email)
 
-    return render_template('login.html', 
-                           next_url=next_url,
-                           form=form,
-                           regist_email=regist_email,
-                           update_email=update_email) 
+@minicommunity.route('/member/login', methods=['post'])
+def login(): #로그인 프로세싱 
+    form = LoginForm(request.form) #개체.속성
+    next_url = form.next_url.data
+    login_error = None
     
-    """개인정보 수정을 가능하게 할 것인??"""
+    if form.validate(): #로그인 인증의 성공할 경우 
+        session.permanent = True #서버측 세션 생성 
+        
+        email = form.email.data
+        password = form.password.data
+        next_url = form.next_url.data
+        
+        Log.info("(%s)next_url is %s" % (request.method, next_url))
+        
+        try:
+            member = dao.query(Member). \
+            filter_by(email=email). \
+            first()
+        
+        except Exception as e:
+            Log.error(str(e))
+            raise e
     
-    
-# @minicommunity.route('/user/login', methods=['POST'])
-# def login():
-#     """이메/비밀번호 기반의 로그인 기능을 제공함. 
-#     로그인 성공 시 세션에 사용자 정보를 저장하여 사용함"""
-# 
-#     form = LoginForm(request.form)
-#     next_url = form.next_url.data
-#     login_error = None
-#     
-#     if form.validate():
-#         session.permanent = True
-#     
-#         email = form.email.data
-#         password = form.password.data
-#         next_url = form.next_url.data
-#         
-#         Log.info('(%s)next_url is %s' % (request.method, next_url))
-# 
-#         try:
-#             user = dao.query(User). \
-#                 filter_by(email=email). \
-#                 first()
-# 
-#         except Exception as e:
-#             Log.error(str(e))
-#             raise e
-# 
-#         if user:
-#             if not check_password_hash(user.password, password):
-#                 login_error = '패스워드가 없거나 등록되지 않은 사용자입니다.'
-#                 
-#             else:
-#                 # 세션에 추가할 정보를 session 객체의 값으로 추가함
-#                 # 가령, User 클래스 같은 사용자 정보를 추가하는 객체 생성하고
-#                 # 사용자 정보를 구성하여 session 객체에 추가
-#                 session['user_info'] = user
-#                 
-#                 if next_url != '':
-#                     return redirect(next_url)
-#                 else:
-#                     return redirect(url_for('.index'))
-#         else:
-#             login_error = '패스워드가 없거나 등록되지 않은 사용자입니다'
-#             
-#     return render_template('login.html', 
-#                    next_url=next_url, 
-#                    error=login_error, 
-#                    form=form)
+        if member:
+            if not check_password_hash(member.password, password):
+                login_error = "Invalid Password"
+            
+            else:
+                session['member_info'] = member
+                
+                if next_url != '':
+                    return redirect(next_url)
+                else: 
+                    return redirect(url_for('.index'))
+                
+                
+        else:
+            login_error = 'YOU do NOT exist'
+            
+    return render_template('login.html', next_url=next_url, error=login_error, form=form)
 
-    
+                
 @minicommunity.route('/logout')
 @login_required
 def logout():
-    """로그아웃 시에 호출되며 세션을 초기화함"""
-    
     session.clear()
-
-    return redirect(url_for('.index'))
-
-
-class LoginForm(Form):
-    """로그인 화면에서 이메일과 비밀번호 입력값을 검증함"""
+    return redirect(url_for('.index')) #로그인 끝나면 초기페이지로 돌아감 
     
-    username = \
-        TextField('email', 
-                  [validators.Required('이메일 주소를 입력하세요.'),
-                   validators.Length(
-                    min=4, 
-                    max=30, 
-                    message='이메일 주소를 올바르게 입력해주세요')])
-        
-    password = PasswordField('New Password', 
-                [validators.Required('비밀번호를 입력하세요.'),
-                 validators.Length(
-                    min=6, 
-                    max=20, 
-                    message='비밀번호를 올바르게 입력해주세요')])
     
-    next_url = HiddenField('Next URL')
+           
+
+class LoginForm(Form): #로그인에 필요한 정보를 규정 
+    email = \
+        TextField('email',[
+                validators.Required('이메일을 입력해주세요'),
+                validators.Length(min=5,max=40,message='이메일 제대로 써주세요'),
+                validators.Regexp(r'[A-Za-z0-9@-_.]', message='이메일 제대로 써주세요')])
+
+    password = \
+        TextField('password',[
+                validators.Required('비밀번호를 입력해주세요'),
+                validators.Length(min=6, max=20, message='비밀번호를 입력해주셈'),
+                validators.Regexp(r'[A-Za-z0-9]', message='비밀번호를 입력해주셈')])
     
+    next_url = \
+        TextField('next_url',[
+                              validators.Required('next_url is not found')])
