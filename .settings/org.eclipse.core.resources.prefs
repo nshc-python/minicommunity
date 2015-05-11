@@ -4,6 +4,7 @@
 eclipse.preferences.version=1
 encoding//minicommunity/__init__.py=utf-8
 encoding//minicommunity/controller/__init__.py=utf-8
+encoding//minicommunity/controller/list_anonybbs.py=utf-8
 encoding//minicommunity/controller/login.py=utf-8
 encoding//minicommunity/controller/register_member.py=utf-8
 encoding//minicommunity/minicommunity_blueprint.py=utf-8
