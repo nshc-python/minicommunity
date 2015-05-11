@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import request, render_template, session, url_for, redirect, current_app
-from werkzeug import check_password_hash
+from werkzeug.security import check_password_hash
 from wtforms import Form, TextField, validators
 from minicommunity.minicommunity_logger import Log
 from minicommunity.minicommunity_blueprint import minicommunity

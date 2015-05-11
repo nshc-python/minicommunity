@@ -40,6 +40,7 @@
         <script type="text/javascript" src="{{ url_for('static',filename='js/modal.js') }}"></script>
         
 		{% block head %}{% endblock %}
+		
   </head>
   <body width="100%">
 
@@ -52,7 +53,7 @@
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
 	          </button>
-	          <a class="brand" href="{{ url_for('minicommunity.login') }}">&nbsp;<i class="icon-picture"></i>Minicommunity</a>
+		      <a class="brand" href="{ url_for('minicommunity.list_anonybbs') }}">&nbsp;<i class="icon-picture"></i>Minicommunity Home</a>
 	          <div class="nav-collapse collapse">
 	            <ul class="nav"> <!-- 여기서 나오는 모든 url_for은 임시로 login으로 돌려놓음, user은 member로 수 -->
 		        		<li class="active"><a  href="{{ url_for('minicommunity.login') }}" ><i class="icon-map-marker icon-large"></i> 지도에서 사진보기 </a></li>

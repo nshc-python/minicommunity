@@ -23,14 +23,16 @@ from sqlalchemy.types import DateTime
 def register_member_form():
     form = RegisterForm(request.form)
     
-    Log.debug('aaa')
-    
-    return render_template('register_sample.html', form=form)
+    Log.debug('form good :')
+    Log.debug(request)  
+    return render_template('member_register.html', form=form)
 
 @minicommunity.route('/member/register_proc',methods=['POST'])
 def register_member():
     '''미니 커뮤니티 사용자 등록하는 액션'''
     form = RegisterForm(request.form)
+
+    Log.debug('aaa')    
     
     if form.validate():
         email = form.email.data
@@ -53,7 +55,7 @@ def register_member():
         
         else:
             # 성공적으로 사용자 등록이 되면 로그인 화면으로 이동한다.
-            return redirect(url_for('.loginpola',
+            return redirect(url_for('.login',
                                     register_member_name=nickname))
             
     else:
@@ -110,6 +112,9 @@ class RegisterForm(Form):
                                                  message='비밀번호가 일치하지 않습니다.')])
     
     password_confirm = PasswordField('Confirm password')
+    
+    email_check = HiddenField('Check email',
+                                 [validators.Required('중복되는 이메일이 있습니다.')])
     
     nickname_check = HiddenField('Check nickname',
                                  [validators.Required('중복되는 닉네임이 있습니다.')])
