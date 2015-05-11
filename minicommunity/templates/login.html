@@ -117,9 +117,12 @@
 					<!-- 회원가입 버튼 클릭시 모달 팝--> 
  					
  					<button type="button" class="btn btn-primary btn-danger" data-toggle="modal" data-target="#myModal"> 회원가입하기 </button>
- 					
+ 					<form>
 						<!-- 회원가입 모달 -->
 						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						  
+		              	{{ render_field(form.password, class="input-block-level", placeholder="Password") }}
+              {{ render_field(form.next_url, value= next_url) }}
 						  <div class="modal-dialog">
 						    <div class="modal-content">
 						      <div class="modal-header">
@@ -167,20 +170,20 @@
 										</div>
 						      <div class="modal-footer">
 						        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-						        <button type="button" class="btn btn-primary">가입</button>
+						        <button type="submit" name="submit" class="btn btn-success">가입</button>
+						        <!-- <a href="{{ url_for('minicommunity.register_member') }}" class="btn btn-success">가입</a> -->
 						      </div>
 						    </div>
 						   </div>     
 						 </div>
-						</div>
 						<!--회원가입 모달 끝-->
-					
+		</form>					
 					</div>
 				</div>
 			</div>
  					
 
-		</form>
+
 
 <!--로그인 및 회원가입 끝 -->
 

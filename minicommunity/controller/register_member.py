@@ -31,6 +31,8 @@ def register_member_form():
 def register_member():
     '''미니 커뮤니티 사용자 등록하는 액션'''
     form = RegisterForm(request.form)
+
+    Log.debug('aaa')    
     
     if form.validate():
         email = form.email.data
@@ -53,7 +55,7 @@ def register_member():
         
         else:
             # 성공적으로 사용자 등록이 되면 로그인 화면으로 이동한다.
-            return redirect(url_for('.loginpola',
+            return redirect(url_for('.login',
                                     register_member_name=nickname))
             
     else:
