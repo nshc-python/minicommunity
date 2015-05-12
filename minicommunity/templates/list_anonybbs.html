@@ -1,0 +1,26 @@
+{# layout 호출 #}
+{% extends "layout.html" %}
+
+{# 윈도우 창에 표시될 이름 #}
+{% block title %}익명게시판{% endblock %} 
+
+
+{# Header #}
+
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+
+{# Body #}
+
+{% block content %}
+	<div class="container-fluid">
+	<p class="text-center">
+		"anonybbs 화면입니다."
+	</p>
+
+{% endblock %}
+
+
+
