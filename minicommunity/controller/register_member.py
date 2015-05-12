@@ -30,14 +30,15 @@ def register_member_form():
 @minicommunity.route('/member/register_proc',methods=['POST'])
 def register_member():
     '''미니 커뮤니티 사용자 등록하는 액션'''
-    form = RegisterForm(request.form)
+    
+    rform = RegisterForm(request.form)
 
     Log.debug('aaa')    
     
-    if form.validate():
-        email = form.email.data
-        nickname = form.nickname.data
-        password = form.password.data
+    if rform.validate():
+        email = rform.email.data
+        nickname = rform.nickname.data
+        password = rform.password.data
 #         password_confirm = form.password_confirm.data
         
         try:
@@ -59,7 +60,7 @@ def register_member():
                                     register_member_name=nickname))
             
     else:
-        return render_template('register_sample.html', form=form)
+        return redirect(url_for('minicommunity.login', rform=rform))
     
 
 @minicommunity.route('/member/check_email', methods=['POST'])
