@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import request, render_template, session, url_for, redirect, current_app
-from werkzeug import check_password_hash
+from werkzeug.security import check_password_hash
 from wtforms import Form, TextField, validators
 from minicommunity.minicommunity_logger import Log
 from minicommunity.minicommunity_blueprint import minicommunity
@@ -9,6 +9,7 @@ from minicommunity.model.member import Member
 from minicommunity.minicommunity_database import dao
 from functools import wraps
 from wtforms.fields.simple import HiddenField, PasswordField
+from minicommunity.controller.register_member import RegisterForm
    
    
 def login_required(f):
@@ -42,8 +43,9 @@ def login_form(): #로그인 화면을 호출
     regist_member = request.args.get('regist_member','') #welcome user message popup 
     Log.info("(%s)next_url is %s" % (request.method, next_url))
     form = LoginForm(request.form)
+    rform = RegisterForm(request.form)
     
-    return render_template('login.html', next_url=next_url, form=form, regist_member=regist_member)
+    return render_template('login.html', next_url=next_url, form=form, rform=rform, regist_member=regist_member)
 
 @minicommunity.route('/member/login', methods=['post'])
 def login(): #로그인 프로세싱 
