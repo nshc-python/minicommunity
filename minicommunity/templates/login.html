@@ -105,8 +105,66 @@
       }
       return false;
     };
+    
+    
+    var register_submit_form = function(e) {
+        if ($('input[name=nickname]').val() != '') {
+          $.ajax({
+          	url         : '/member/check_nickname'
+             ,type        : 'POST'
+             ,cache       : false
+             ,data        : JSON.stringify({
+          	   username: $('input[name=nickname]').val()
+               })
+             ,contentType : 'application/json; charset=utf-8'
+             ,dataType    : 'json'
+             ,success     : function(data) { 
+          	   username = $('input[name=nickname]').val();
+          	   if (data.result) {
+          	       
+                     $('#regist').modal('hide');
+                     
+                     bootbox.alert(username + '는 사용 가능한 아이디입니다.', function() {
+                         $('#regist').modal('show');
+                  	   $('input[name=nickname_check]').val('Y');
+                  	   $('input[name=email]').focus().select();
+                     
+                     });
+          	   } else {
+          	       $('#regist').modal('hide');
+                     
+                     bootbox.alert(username + '는 이미 사용중입니다. 다른 아이디를 사용하세요.', function() {
+                         $('#regist').modal('show');
+                  	   $('input[name=nickname]').val('');
+                         $('input[name=nickname]').focus().select();
+                     });
+          	   }
+               }
+             ,error: function(result) {
+                 $('#register').modal('hide');
+
+          	   bootbox.alert('통신에 오류가 발생했습니다. 잠시 후에 다시 사용하세요.', function() {
+                     $('#register').modal('show');
+          	   });
+             }
+          });
+          
+        } else { 
+            $('#register').modal('hide');
+
+      	  bootbox.alert('사용자명을 넣어주세요.', function() {
+                $('#register').modal('show');
+                $('input[name=nickname]').focus();
+      	  });
+        }
+        return false;
+      };
+      
+      $('button#nickname_check').bind('click', register_submit_form);
+      //$('input[name=nickname]').focus();
+    
         
-    $('button#email_check').bind('click', submit_form);
+    //$('button#email_check').bind('click', submit_form);
     $('input[name=email]').focus();
   });
 </script>
@@ -115,11 +173,99 @@
 					<!-- 회원가입 버튼 클릭시 모달 팝--> 
  					
  					<!-- <button type="button" class="btn btn-primary btn-danger" data-toggle="modal" data-target="#myModal"> 회원가입하기 </button> -->
- 					<a href="{{ url_for('minicommunity.register_member_form') }}" class="btn btn-primary btn-danger" >가입하기</a>
+ 					<a href="#" role="button" class="btn btn-primary btn-danger" data-toggle="modal" data-target="#registerModal">가입하기</a>
 					</div>
 				</div>
 			</form>	
 			</div>
+			
+			{# 회원가입 화면 #} 
+		{% from "_formhelpers.html" import render_field %}
+			<form class="form-horizontal" action='{{ url_for('minicommunity.register_member') }}' method="POST">
+	<!-- 회원가입 모달 -->
+	<div id="registerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<h3 class="modal-title" id="myModalLabel">회원가입</h3>
+		</div>
+
+		<div class="modal-body">
+			<fieldset>
+				<!-- 입력창 시작 -->
+				<div class="control-group">
+					<!-- Nickname -->
+					<label class="control-label" for="email">이메일</label>
+					<div class="controls">
+						{% if member %} 
+							{{ render_field(rform.email, class="input-xlarge", placeholder="문자와 숫자로 공백없이 입력해주세요.", readOnly="True") }}
+						{% else %}
+							<div class="input-append">
+								{{ render_field(rform.email, class="input-xlarge", placeholder="문자와 숫자로 공백없이 입력해주세요.") }}
+								<button id="email_check" class="btn btn-primary">중복 확인</button>
+								{{ render_field(rform.email_check) }}
+							</div>
+						{% endif %}
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="nickname">닉네임</label>
+					<div class="controls">
+						{% if member %} 
+							{{ render_field(rform.nickname, class="input-xlarge", placeholder="문자와 숫자로 공백없이 입력해주세요.", readOnly="True") }} 
+						{% else %}
+							<div class="input-append">
+								{{ render_field(rform.nickname, class="input-xlarge", placeholder="문자와 숫자로 공백없이 입력해주세요.") }}
+								<button id="nickname_check" class="btn btn-primary">확인</button>
+								{{ render_field(rform.nickname_check) }}
+							</div>
+						{% endif %}
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="password">비밀번호</label>
+					<div class="controls">
+						{% if member %}
+							{{ render_field(rform.password, class="input-xlarge", placeholder="Password", readOnly="True") }}
+						{% else %}
+							<div class="input-append">
+							{{ render_field(rform.password, class="input-xlarge", placeholder="Password") }}
+							</div>
+						{% endif %}
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="password_confirm">비밀번호 확인</label>
+					<div class="controls">
+						{% if member %}
+							{{ render_field(rform.password_confirm, class="input-xlarge", placeholder="Password confirm", readOnly="True") }} 
+						{% else %}
+							<div class="input-append">
+							{{ render_field(rform.password_confirm, class="input-xlarge",placeholder="Password confirm") }}
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			</fieldset>
+			<!-- 입력창 끝 -->
+		</div>
+
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+			<button type="submit" name="submit" class="btn btn-primary">가입</button>
+			<!-- <a href="{{ url_for('minicommunity.register_member') }}" class="btn btn-success">가입</a> -->
+		</div>
+		</div>
+		</div>
+	</div>
+	<!--회원가입 모달 끝-->
+</form>
  					
 
 <!--로그인 및 회원가입 끝 -->
