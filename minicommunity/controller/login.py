@@ -38,12 +38,12 @@ def login_required(f):
 
 @minicommunity.route('/member/login')
 def login_form(): #로그인 화면을 호출 
-    
     next_url = request.args.get('next','')
     regist_member = request.args.get('regist_member','') #welcome user message popup 
     Log.info("(%s)next_url is %s" % (request.method, next_url))
     form = LoginForm(request.form)
     rform = RegisterForm(request.form)
+    Log.debug('sss')
     
     return render_template('login.html', next_url=next_url, form=form, rform=rform, regist_member=regist_member)
 
@@ -54,7 +54,7 @@ def login(): #로그인 프로세싱
     login_error = None
     
     if form.validate(): #로그인 인증의 성공할 경우 
-        session.permanent = True #서버측 세션 생성 
+        #session.permanent = True #서버측 세션 생성 
         
         email = form.email.data
         password = form.password.data
@@ -76,6 +76,9 @@ def login(): #로그인 프로세싱
                 login_error = "Invalid Password"
             
             else:
+                # 세션에 추가할 정보를 session 객체의 값으로 추가함
+                # 가령, member 클래스 같은 사용자 정보를 추가하는 객체 생성하고
+                # 사용자 정보를 구성하여 session 객체에 추가
                 session['member_info'] = member
                 
                 if next_url != '':
