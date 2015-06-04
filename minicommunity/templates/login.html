@@ -20,11 +20,69 @@
 		Welcome to NSHC Minicommunity <small>당신의 새로운 야머</small>
 	</p>
 	
+	<!-- 로그인 자바스크립트 -->
+    <script type="text/javascript">
+
+      function confirmSave(checkbox) {  //이메일 주소 저장하기 버튼 체크  
+        var isRemember;
+
+        if (checkbox.checked) {
+          isRemember = confirm("이 PC에 로그인 정보를 저장하시겠습니까?");
+          
+          if (!isRemember) checkbox.checked = false;
+        }
+      }
+      
+      function setsave(name, value, expiredays) { // 쿠키에 저장하기
+        var today = new Date();
+        today.setDate( today.getDate() + expiredays );
+        document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + today.toGMTString() + ";"
+      }
+      
+      function saveLogin(email){ //이메일 주소 저장하기 
+        if (email != "") {
+          setsave("email", email, 7);
+         } else {
+           setsave("email", email, -1);
+         }
+      }
+      
+      function getLogin() { //로그인 정보 가져오기 
+        var cookie = document.cookie + ";";
+        var index = cookie.indexOf("email", 0);
+        var val = "";
+
+        if (index != -1) {
+          cookie = cookie.substring(index, cookie.length);
+          begin = cookie.indexOf("=", 0) + 1;
+          end = cookie.indexOf(";", begin);
+          val = unescape(cookie.substring(begin, end));
+         }
+        
+        if (val!= "") {
+          document.frm.email.value = val;
+          document.frm.remember.checked = true;
+        }
+      
+      }
+      
+      function checkLogin() {  //로그인 확인 
+    	if (document.frm.remember.checked) {
+    	  saveLogin(document.frm.email.value);
+    	}
+    	else {    	  
+    	  saveLogin("");
+    	}
+      }
+      
+      window.onload = getLogin()
+    </script>
+	
 		
-		{# 로그인 화면 #} 
+		<!-- 로그인 화면 --> 
 		{% from "_formhelpers.html" import render_field %}
-		<form class="form-horizontal">
-		<div class="col-sm-offset-2 col-sm-10">
+		<form name="form-horizontal" method="POST" action="#" accept-charset="UTF-8" onSubmit="return checkLogin(this)">
+		<div id="login-form" class="col-sm-offset-2 col-sm-10">
 			<div class="form-group">
 			<label for="exampleInputEmail1">Email address</label>
 				{{ render_field(form.email, class="form-control", placeholder="Email") }}
@@ -53,8 +111,10 @@
  			<!-- 회원가입 자바스크립트 -->  
       <script type=text/javascript>
   $(function() {
-    var submit_form = function(e) {
+    var email_check_form = function(e) {
+//    	alert('hahaha 1');
       if ($('input[name=email]').val() != '') {
+//    	  alert('if');
         $.ajax({
         	url         : '/member/check_email'
            ,type        : 'POST'
@@ -68,7 +128,7 @@
         	   email = $('input[name=email]').val();
         	   if (data.result) {
         	       
-                   $('#register').modal('hide');
+                   $('#registerModal').modal('hide');
                    
                    bootbox.alert(email + '는 사용 가능한 이메일입니다.', function() {
                        $('#register').modal('show');
@@ -77,17 +137,17 @@
                    
                    });
         	   } else {
-        	       $('#register').modal('hide');
+        	       $('#registerModal').modal('hide');
                    
                    bootbox.alert(email + '는 이미 사용중입니다. 다른 이메일을 입력하세요.', function() {
-                       $('#regist').modal('show');
+                       $('#register').modal('show');
                 	   $('input[name=email]').val('');
                        $('input[name=email]').focus().select();
                    });
         	   }
              }
            ,error: function(result) {
-               $('#register').modal('hide');
+               $('#registerModal').modal('hide');
 
         	   bootbox.alert('통신에 오류가 발생했습니다. 잠시 후에 다시 사용하세요.', function() {
                    $('#register').modal('show');
@@ -96,13 +156,15 @@
         });
         
       } else { 
-          $('#register').modal('hide');
+//    	  alert('else');
+          $('#registerModal').modal('hide');
 
     	  bootbox.alert('이메일을 넣어주세요.', function() {
-              $('#register').modal('show');
+              $('#registerModal').modal('show');
               $('input[name=email]').focus();
     	  });
       }
+
       return false;
     };
     
@@ -161,10 +223,9 @@
       };
       
       $('button#nickname_check').bind('click', register_submit_form);
-      //$('input[name=nickname]').focus();
     
         
-    //$('button#email_check').bind('click', submit_form);
+    $('button#email_check').bind('click', email_check_form);
     $('input[name=email]').focus();
   });
 </script>
@@ -181,7 +242,7 @@
 			
 			{# 회원가입 화면 #} 
 		{% from "_formhelpers.html" import render_field %}
-			<form class="form-horizontal" action='{{ url_for('minicommunity.register_member') }}' method="POST">
+			<form class="form-horizontal" action='#' method="POST">
 	<!-- 회원가입 모달 -->
 	<div id="registerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
