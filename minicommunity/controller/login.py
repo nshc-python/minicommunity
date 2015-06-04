@@ -38,18 +38,20 @@ def login_required(f):
 
 @minicommunity.route('/member/login')
 def login_form(): #로그인 화면을 호출 
+    
     next_url = request.args.get('next','')
     regist_member = request.args.get('regist_member','') #welcome user message popup 
     Log.info("(%s)next_url is %s" % (request.method, next_url))
     form = LoginForm(request.form)
     rform = RegisterForm(request.form)
-    Log.debug('sss')
     
     return render_template('login.html', next_url=next_url, form=form, rform=rform, regist_member=regist_member)
 
 @minicommunity.route('/member/login', methods=['post'])
 def login(): #로그인 프로세싱 
     form = LoginForm(request.form) #개체.속성
+    rform = RegisterForm(request.form)
+    
     next_url = form.next_url.data
     login_error = None
     
@@ -90,7 +92,7 @@ def login(): #로그인 프로세싱
         else:
             login_error = 'YOU do NOT exist'
             
-    return render_template('login.html', next_url=next_url, error=login_error, form=form)
+    return render_template('login.html', next_url=next_url, error=login_error, form=form, rform=rform)
 
                 
 @minicommunity.route('/logout')

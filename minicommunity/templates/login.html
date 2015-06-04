@@ -111,8 +111,10 @@
  			<!-- 회원가입 자바스크립트 -->  
       <script type=text/javascript>
   $(function() {
-    var submit_form = function(e) {
+    var email_check_form = function(e) {
+//    	alert('hahaha 1');
       if ($('input[name=email]').val() != '') {
+//    	  alert('if');
         $.ajax({
         	url         : '/member/check_email'
            ,type        : 'POST'
@@ -126,7 +128,7 @@
         	   email = $('input[name=email]').val();
         	   if (data.result) {
         	       
-                   $('#register').modal('hide');
+                   $('#registerModal').modal('hide');
                    
                    bootbox.alert(email + '는 사용 가능한 이메일입니다.', function() {
                        $('#register').modal('show');
@@ -135,17 +137,17 @@
                    
                    });
         	   } else {
-        	       $('#register').modal('hide');
+        	       $('#registerModal').modal('hide');
                    
                    bootbox.alert(email + '는 이미 사용중입니다. 다른 이메일을 입력하세요.', function() {
-                       $('#regist').modal('show');
+                       $('#register').modal('show');
                 	   $('input[name=email]').val('');
                        $('input[name=email]').focus().select();
                    });
         	   }
              }
            ,error: function(result) {
-               $('#register').modal('hide');
+               $('#registerModal').modal('hide');
 
         	   bootbox.alert('통신에 오류가 발생했습니다. 잠시 후에 다시 사용하세요.', function() {
                    $('#register').modal('show');
@@ -154,13 +156,15 @@
         });
         
       } else { 
-          $('#register').modal('hide');
+//    	  alert('else');
+          $('#registerModal').modal('hide');
 
     	  bootbox.alert('이메일을 넣어주세요.', function() {
-              $('#register').modal('show');
+              $('#registerModal').modal('show');
               $('input[name=email]').focus();
     	  });
       }
+
       return false;
     };
     
@@ -219,10 +223,9 @@
       };
       
       $('button#nickname_check').bind('click', register_submit_form);
-      //$('input[name=nickname]').focus();
     
         
-    //$('button#email_check').bind('click', submit_form);
+    $('button#email_check').bind('click', email_check_form);
     $('input[name=email]').focus();
   });
 </script>
@@ -239,7 +242,7 @@
 			
 			{# 회원가입 화면 #} 
 		{% from "_formhelpers.html" import render_field %}
-			<form class="form-horizontal" action='{{ url_for('minicommunity.register_member') }}' method="POST">
+			<form class="form-horizontal" action='#' method="POST">
 	<!-- 회원가입 모달 -->
 	<div id="registerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">

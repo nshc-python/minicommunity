@@ -60,12 +60,16 @@ def register_member():
                                     register_member_name=nickname))
             
     else:
-        return redirect(url_for('minicommunity.login', rform=rform))
+        return redirect(url_for('minicommunity.login', form=rform))
     
 
 @minicommunity.route('/member/check_email', methods=['POST'])
 def check_email():
     email = request.json['email']
+    
+    Log.debug('email : ')
+    Log.debug(email)
+    
     #: DB에서 email 중복 확인 
     if __get_member(email) :
         return jsonify(result = False)
