@@ -39,8 +39,8 @@ def create_app(config_filepath='resource/config.cfg'):
     # SessionInterface 설정.
     # Redis를 이용한 세션 구현은 cache_session.RedisCacheSessionInterface 임포트하고
     # app.session_interface에 RedisCacheSessionInterface를 할당
-#     from photolog.cache_session import SimpleCacheSessionInterface
-#     photolog_app.session_interface = SimpleCacheSessionInterface()
+    from minicommunity.minicommunity_cache_session import SimpleCacheSessionInterface
+    minicommunity_app.session_interface = SimpleCacheSessionInterface()
     
     # 공통으로 적용할 HTTP 404과 500 에러 핸들러를 설정
 #     photolog_app.error_handler_spec[None][404] = not_found
