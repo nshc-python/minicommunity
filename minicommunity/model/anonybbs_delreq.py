@@ -13,7 +13,7 @@ from minicommunity.model import Base
 
 
 class AnonyBBSDelReq(Base):
-    __tablename__ = 'anonybbs_delreq'
+    __tablename__ = 'anonybbs_delreq' #삭제요청 
 
     bbssno = Column(Integer, ForeignKey(AnonyBBS.sno), primary_key='True') #게시판아이디(순번)
     reason = Column(Text) #삭제요청사유
