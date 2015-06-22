@@ -16,10 +16,13 @@
 
 {% block content %}
 	<div class="container-fluid">
-	<p class="text-center">
-		Welcome to NSHC Minicommunity <small>당신의 새로운 야머</small>
-	</p>
+	<h1>Welcome to NSHC Minicommunity<small>당신의 새로운 야머</small></h1>
 	
+<!-- 공간주기 -->
+	<div class="row">
+	  <div class="col-md-6 col-md-offset-3"><br><br/></div>
+	</div>
+
 	<!-- 로그인 자바스크립트 -->
     <script type="text/javascript">
 
@@ -82,31 +85,40 @@
 		<!-- 로그인 화면 --> 
 		{% from "_formhelpers.html" import render_field %}
 		<form name="form-horizontal" method="POST" action="#" accept-charset="UTF-8" onSubmit="return checkLogin(this)">
-		<div id="login-form" class="col-sm-offset-2 col-sm-10">
-			<div class="form-group">
+		<div id="login-form">
+			<dl class="dl-horizontal">
+			<dt>
 			<label for="exampleInputEmail1">Email address</label>
+			</dt>
+			<dd>
 				{{ render_field(form.email, class="form-control", placeholder="Email") }}
-			</div>
-			<div class="form-group">
-			<label for="exampleInputPassword1">Password</label>		
-              	{{ render_field(form.password, class="form-control", placeholder="Password") }}
-          	</div>        
+			</dd>
+			<dt>
+			<label for="exampleInputPassword1">Password</label>
+			</dt>
+			<dd>	
+              	{{ render_field(form.password, class="form-control", placeholder="Password") }}       
               	{{ render_field(form.next_url, value= url_for('minicommunity.list_anonybbs')) }}
-
-			<div class="form-group">
+            </dd>
+            <dt>
+            </dt>
+            <dd>
 					<div class="checkbox">
 						<label>
 							<input type="checkbox" name="remember" value="1" onClick="confirmSave(this)" > ID 기억하기
 						</label>
 					</div>
-			</div>
-			</div>
-
-
-			<!-- 로그인 및 회원가입 버튼 --> 
- 			<div class="form-group">
- 				<div class="col-sm-offset-2 col-sm-10">
- 					<button type="submit" name="submit" class="btn btn-success" >로그인</button>
+			</dd>
+			<dt>
+			</dt>
+			<dd>
+			<button type="submit" name="submit" class="btn btn-success" >로그인</button>
+			<!-- <button type="button" class="btn btn-primary btn-danger" data-toggle="modal" data-target="#myModal"> 회원가입하기 </button> -->
+ 			<a href="#" role="button" class="btn btn-primary btn-danger" data-toggle="modal" data-target="#registerModal">가입하기</a>
+			</dl>
+				
+		</div>
+ 					
  					
  			<!-- 회원가입 자바스크립트 -->  
       <script type=text/javascript>
@@ -230,19 +242,18 @@
   });
 </script>
 
-					<!-- 회원가입 자바스크립트 끝-->
-					<!-- 회원가입 버튼 클릭시 모달 팝--> 
- 					
- 					<!-- <button type="button" class="btn btn-primary btn-danger" data-toggle="modal" data-target="#myModal"> 회원가입하기 </button> -->
- 					<a href="#" role="button" class="btn btn-primary btn-danger" data-toggle="modal" data-target="#registerModal">가입하기</a>
-					</div>
-				</div>
-			</form>	
-			</div>
+		<!-- 회원가입 자바스크립트 끝-->
+		<!-- 회원가입 버튼 클릭시 모달 팝--> 
+
+	</form>	
+	</div>
+
 			
-			{# 회원가입 화면 #} 
+		<!-- 회원가입 화면 --> 
 		{% from "_formhelpers.html" import render_field %}
 			<form class="form-horizontal" action='#' method="POST">
+
+
 	<!-- 회원가입 모달 -->
 	<div id="registerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -331,19 +342,20 @@
 
 <!--로그인 및 회원가입 끝 -->
 
+<!-- 공간주기 -->
+<div class="row">
+  <div class="col-md-6 col-md-offset-3"><br><br/></div>
+</div>
+
 <!--개발자정보 -->
-		<form class="form-horizontal">
-		<div class="col-sm-offset-2 col-sm-10">
-		<address>
-			<strong>NSHC Inc.</strong><br>
-			  55 Gwangjinmal-gil, Uiwang-si, Gyeonggi-do<br>
-			  Republic of Korea<br>
-			 <abbr title="Phone">P:</abbr> (031) 458-6456
-			 <a href="mailto:#">sbpark@nshc.net</a>
-			 <a href="mailto:#">polarhee@nshc.net</a>
-		</address>
-		</div>
-		</form>
+		<dl class="dl-horizontal">
+			<dt>NSHC Inc.</dt>
+			<dd>
+			  55 Gwangjinmal-gil, Uiwang-si, Gyeonggi-do, Republic of Korea
+			  <br>P: (031) 458-6456
+			  <br><a href="mailto:#">sbpark@nshc.net</a> or <a href="mailto:#">polarhee@nshc.net<br/>
+			</dd>
+		</dl>
 
 <!--개발자정보 끝-->
 
