@@ -21,10 +21,13 @@ def create_app(config_filepath='resource/config.cfg'):
     
     # 데이터베이스 처리 
     from minicommunity.minicommunity_database import DBManager
+    from minicommunity.minicommunity_database import dao
     db_filepath = os.path.join(minicommunity_app.root_path, minicommunity_app.config['DB_FILE_PATH'])
     db_url = minicommunity_app.config['DB_URL'] + db_filepath
     DBManager.init(db_url, eval(minicommunity_app.config['DB_LOG_FLAG']))
     DBManager.init_db()
+    Log.debug("DAO::::")
+    Log.debug(str(dao))
        
     # 뷰 함수 모듈은 어플리케이션 객체 생성하고 블루프린트 등록전에 
     # 뷰 함수가 있는 모듈을 임포트해야 해당 뷰 함수들을 인식할 수 있음
