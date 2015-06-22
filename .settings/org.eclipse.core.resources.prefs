@@ -18,6 +18,7 @@ encoding//minicommunity/model/anonybbs_delreq.py=utf-8
 encoding//minicommunity/model/member.py=utf-8
 encoding//minicommunity/model/moviebbs_comment.py=utf-8
 encoding//minicommunity/model/moviebbs_movieinfo.py=utf-8
+encoding//minicommunity/templates/list_anonybbs.html=UTF-8
 encoding//minicommunity/templates/login.html=UTF-8
 encoding//minicommunity/templates/regist_sample.html=UTF-8
 encoding/<project>=UTF-8

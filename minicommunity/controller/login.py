@@ -25,7 +25,7 @@ def login_required(f):
                 request.cookies.get(current_app.config['SESSION_COOKIE_NAME'])
              
             is_login = False
-            if session.sid == session_key and session.__contains__('user_info') : is_login = True
+            if session.sid == session_key and session.__contains__('member_info') : is_login = True
              
             if not is_login:
                 return redirect(url_for('.login_form', next=request.url))
@@ -51,6 +51,25 @@ def login_form(): #로그인 화면을 호출
     
     return render_template('login.html', next_url=next_url, form=form, rform=rform, regist_member=regist_member)
 
+# 이것은 오직 테스트 멤버를 만들기 위해서만 쓰이는 함수임
+@minicommunity.route('/member/ctest')
+def create_members():
+    # test code
+    
+    member_test = Member(6,
+                         "test6", 
+                    generate_password_hash("test6"),
+                    "Pola no6",
+                    datetime.today(),
+                    datetime.today())
+    
+    dao.add(member_test)
+    dao.commit()
+    
+    # test end
+    return redirect(url_for('.login_form'))
+
+
 @minicommunity.route('/member/login', methods=['post'])
 def login(): #로그인 프로세싱 
     form = LoginForm(request.form) #개체.속성
@@ -59,82 +78,72 @@ def login(): #로그인 프로세싱
     next_url = form.next_url.data
     login_error = None
     
-    if form.validate(): #로그인 인증의 성공할 경우 
-        #session.permanent = True #서버측 세션 생성 
+    Log.debug(1)
+    
+    if form.validate(): #로그인 폼에 입력된 값이 유효하다고 판단될 경우
+        Log.debug(2)
+        session.permanent = True #세션에 영속성을 부여한다. 
         
         email = form.email.data
         password = form.password.data
         next_url = form.next_url.data
         
-        Log.debug(1)
+        Log.debug(3)
         #Log.info("(%s)next_url is %s" % (request.method, next_url))
-        
-        # test code
-        '''
-        member_test = Member(1,
-                             "test1", 
-                        generate_password_hash("test1"),
-                        "nickname1",
-                        datetime.today(),
-                        datetime.today())
-        
-        dao.add(member_test)
-        dao.commit()
-        '''
-        # test end
         
         try:
             member = dao.query(Member). \
             filter_by(email=email). \
             first()
         
-            Log.debug(str(1))
+            Log.debug(str(4))
         
         except Exception as e:
             Log.error(str(e))
             raise e
     
-        Log.debug(str(2))
+        Log.debug(str(5))
         
         if member:
+            Log.debug("Member passwd : "+member.password)
+            Log.debug("Your   passwd : "+password)
             if not check_password_hash(member.password, password):
                 login_error = "Invalid Password"
-         
-                Log.debug(str(3))
-        
+                Log.debug(str(6)+":"+login_error)
+                return redirect(url_for('.login_form'))
             else:
                 # 세션에 추가할 정보를 session 객체의 값으로 추가함
                 # 가령, member 클래스 같은 사용자 정보를 추가하는 객체 생성하고
                 # 사용자 정보를 구성하여 session 객체에 추가
                 session['member_info'] = member
                 
-                Log.debug(str(4))
+                Log.debug(str(7))
                 
-                if next_url != '':
-                    return redirect(next_url)
-                
-                    Log.debug(str(5))
-                
-                else: 
-                    return redirect(url_for('.index'))
+                if next_url != '': #다음에 이동할 주소 값이 있다면.. 그곳으로 이동한다.
+                    Log.debug("8 next_url : "+next_url)
+                    return redirect(next_url)     
+                else:
+                    Log.debug("9 go list_bbs") 
+                    return render_template('list_anonybbs.html', next_url=next_url, error=login_error, form=form, rform=rform)
             
-            Log.debug(str(6))   
-                
-        else:
+        else: #멤버가 조회되지 않았을 경우 로그인 화면으로 돌아간다.
             login_error = 'YOU do NOT exist'        
-            Log.debug(str(7))
+            Log.debug(str(8))
+            return redirect(url_for('.login_form')) 
             
-    return render_template('list_anonybbs.html', next_url=next_url, error=login_error, form=form, rform=rform)
-    
-    Log.debug(str(8))
+    return redirect(url_for('.index'))
+
+@minicommunity.route('/')
+@login_required
+def index():
+    """로그인이 성공한 다음에 보여줄 초기 페이지"""
+    return redirect(url_for('.login_form'))
                 
 @minicommunity.route('/logout')
 @login_required
 def logout():
     session.clear()
     return redirect(url_for('.index')) #로그인 끝나면 초기페이지로 돌아감 
-    
-    
            
 
 class LoginForm(Form): #로그인에 필요한 정보를 규정 
@@ -147,7 +156,7 @@ class LoginForm(Form): #로그인에 필요한 정보를 규정
     password = \
         PasswordField('password',[
                 validators.Required('비밀번호를 입력해주세요'),
-                validators.Length(min=6, max=20, message='비밀번호를 입력해주셈'),
+                validators.Length(min=5, max=20, message='비밀번호를 입력해주셈'),
                 validators.Regexp(r'[A-Za-z0-9]', message='비밀번호를 입력해주셈')])
     
     next_url = HiddenField('next_url')
