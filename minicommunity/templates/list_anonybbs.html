@@ -16,8 +16,7 @@
 
 {% block content %}
 	<div class="container-fluid">
-		<h1>익명게시판 </h1>
-	</div>
+		<h1>{{ nickname }}의 익명게시판 </h1>
 
 	<!-- NOTIFICATION -->	
 	<div class="alert alert-danger" role="alert">
@@ -32,17 +31,22 @@
 	
 		
 		
-		<!-- Calendar 1 -->
+		<!-- Calendar -->
 		<form class="form-inline">
-		<div class="input-group date">
-		<input type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-		</div> ~ 
-		
-		<!-- Calendar 2 -->
-		<div class="input-group date">
-	  	<input type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+		<div class="input-daterange input-group" id="datepicker">
+	    <input type="text" class="input-sm form-control" name="start" data-provide="datepicker"/>
+	    <span class="input-group-addon">to</span>
+	    <input type="text" class="input-sm form-control" name="end" data-provide="datepicker" />
 		</div>
-	
+		
+        <script type="text/javascript">
+        $('.datepicker').datepicker({
+            format: 'mm/dd/yyyy',
+            startDate: '-3d',
+            language: "kr"
+        })
+        </script>
+        
 		<!-- search box -->
 		<div class="form-group">
 		<input type="text" class="form-control" placeholder="Search">
@@ -56,14 +60,26 @@
 	
 	<textarea class="form-control" rows="3"></textarea> 
 	
-	<!-- 파일선택 -->
-	<form>
-	<div class="form-group">
-    <label for="exampleInputFile">File input</label>
-    <input type="file" id="exampleInputFile">
-    <p class="help-block">사진은 한 번에 1장만 올릴 수 있습니다^^</p>
-    </div>
-    </form>
+
+    <!-- thumbnail --> 
+    <img id="uploadPreview" style="width: 100px; height: 100px;"/>
+	<input id="uploadImage" type="file" name="myPhoto" onchange="PreviewImage();" />
+	<script type="text/javascript">
+		  function PreviewImage() {
+		    var oFReader = new FileReader();
+		    oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
+		    oFReader.onload = function(oFREvent) {
+		      document.getElementById("uploadPreview").src = oFREvent.target.result;
+		    };
+		  };
+	</script>
+
+	<!-- thumbnail2 -->
+	<form method="post" action="filesave.cfm" enctype="multipart/form-data" name="form1">
+	<input type="file" name="filesent" onSubmit="return CheckUpload()">
+	<input type="button" value="Preview" name="Preview" onClick="DoPreview()">
+	<input type="hidden" name="height" value="0">
+	<input type="hidden" name="width" value="0">	
     
     <!-- 등록버튼 -->
 	<a class="btn btn-default" href="#" role="button">등록</a>
@@ -72,67 +88,56 @@
 	<div class="row">
 	<div class="col-md-6 col-md-offset-3"><br><br/></div>
 	</div>
-		
-	<!-- 그리드  -->
-	<div class="container-fluid">
-		<div class="row">
-		  	<div class="col-md-9 col-md-push-3"><br>내용을 입력해준다면 <br>안녕하세요라고 말하는게 인지상정 <br/></div>
-		  	<div class="col-md-3 col-md-pull-9"><strong>mm/dd/yyyy</strong></div>
-		</div>
-		<div class="row">
-		  	<div class="col-md-9 col-md-push-3">내용을 입력해주세요 </div>
-		  	<div class="col-md-3 col-md-pull-9"><strong>mm/dd/yyyy</strong></div>
-		</div>
-		<div class="row">
-		  	<div class="col-md-9 col-md-push-3">내용을 입력해주세요 </div>
-		  	<div class="col-md-3 col-md-pull-9"><strong>mm/dd/yyyy</strong></div>
-		</div>
-		<div class="row">
-		  	<div class="col-md-9 col-md-push-3">내용을 입력해주세요 </div>
-		  	<div class="col-md-3 col-md-pull-9"><strong>mm/dd/yyyy</strong></div>
-		</div>
-		<div class="row">
-		  	<div class="col-md-9 col-md-push-3">내용을 입력해주세요 </div>
-		  	<div class="col-md-3 col-md-pull-9"><strong>mm/dd/yyyy</strong></div>
-		</div>
-		<div class="row">
-		  	<div class="col-md-9 col-md-push-3">내용을 입력해주세요 </div>
-		  	<div class="col-md-3 col-md-pull-9"><strong>mm/dd/yyyy</strong></div>
-		</div>
-		<div class="row">
-		  	<div class="col-md-9 col-md-push-3">내용을 입력해주세요 </div>
-		  	<div class="col-md-3 col-md-pull-9"><strong>mm/dd/yyyy</strong></div>
-		</div>
+
+	<!-- 게시판 구성 -->
+	
+	<div class="panel panel-default">
+  	<div class="panel-heading">
+    <h3 class="panel-title">mm/dd/yyyy</h3>
+  	</div>
+  	<div class="panel-body">
+    you are amazing baby
+  	</div>
+	</div>
+	
+	<div class="panel panel-default">
+  	<div class="panel-heading">
+    <h3 class="panel-title">mm/dd/yyyy</h3>
+  	</div>
+  	<div class="panel-body">
+    you are amazing baby
+  	</div>
+	</div>
+	
+	<div class="panel panel-default">
+  	<div class="panel-heading">
+    <h3 class="panel-title">mm/dd/yyyy</h3>
+  	</div>
+  	<div class="panel-body">
+    you are amazing baby
+  	</div>
+	</div>
+	
+	<div class="panel panel-default">
+  	<div class="panel-heading">
+    <h3 class="panel-title">mm/dd/yyyy</h3>
+  	</div>
+  	<div class="panel-body">
+    you are amazing baby
+  	</div>
 	</div>
 	
 	<!-- Page -->
 	<nav>
-  <ul class="pagination">
-    <li>
-      <a href="#" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
-</nav>
+	  <ul class="pager">
+	    <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> 이전 페이지 </a></li>
+	    <li class="next"><a href="#">다음 페이지 <span aria-hidden="true">&rarr;</span></a></li>
+	  </ul>
+	</nav>
 	
-	
-	<!-- Calendar JavaScript -->	
-	
-	$('#sandbox-container .input-group.date').datepicker({
-    todayBtn: true,
-    language: "kr",
-    keyboardNavigation: false,
-    forceParse: false,
-    todayHighlight: true
-	});
 
-{% endblock %}
-
+</div>
+	
+	{% endblock %}
 
 
