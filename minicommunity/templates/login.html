@@ -125,36 +125,36 @@
   $(function() {
     var email_check_form = function(e) {
 //    	alert('hahaha 1');
-      if ($('input[name=email]').val() != '') {
+      if ($('input[name=r_email]').val() != '') {
 //    	  alert('if');
         $.ajax({
         	url         : '/member/check_email'
            ,type        : 'POST'
            ,cache       : false
            ,data        : JSON.stringify({
-        	   email: $('input[name=email]').val()
+        	   email: $('input[name=r_email]').val()
              })
            ,contentType : 'application/json; charset=utf-8'
            ,dataType    : 'json'
            ,success     : function(data) {
-        	   email = $('input[name=email]').val();
+        	   email = $('input[name=r_email]').val();
         	   if (data.result) {
         	       
                    $('#registerModal').modal('hide');
                    
                    bootbox.alert(email + '는 사용 가능한 이메일입니다.', function() {
-                       $('#register').modal('show');
-                	   $('input[name=email_check]').val('Y');
-                	   $('input[name=password]').focus().select();
+                       $('#registerModal').modal('show');
+                	   $('input[name=r_email_check]').val('Y');
+                	   $('input[name=r_password]').focus().select();
                    
                    });
         	   } else {
         	       $('#registerModal').modal('hide');
                    
                    bootbox.alert(email + '는 이미 사용중입니다. 다른 이메일을 입력하세요.', function() {
-                       $('#register').modal('show');
-                	   $('input[name=email]').val('');
-                       $('input[name=email]').focus().select();
+                       $('#registerModal').modal('show');
+                	   $('input[name=r_email]').val('');
+                       $('input[name=r_email]').focus().select();
                    });
         	   }
              }
@@ -162,7 +162,7 @@
                $('#registerModal').modal('hide');
 
         	   bootbox.alert('통신에 오류가 발생했습니다. 잠시 후에 다시 사용하세요.', function() {
-                   $('#register').modal('show');
+                   $('#registerModal').modal('show');
         	   });
            }
         });
@@ -173,7 +173,7 @@
 
     	  bootbox.alert('이메일을 넣어주세요.', function() {
               $('#registerModal').modal('show');
-              $('input[name=email]').focus();
+              $('input[name=r_email]').focus();
     	  });
       }
 
@@ -182,53 +182,53 @@
     
     
     var register_submit_form = function(e) {
-        if ($('input[name=nickname]').val() != '') {
+        if ($('input[name=r_nickname]').val() != '') {
           $.ajax({
           	url         : '/member/check_nickname'
              ,type        : 'POST'
              ,cache       : false
              ,data        : JSON.stringify({
-          	   username: $('input[name=nickname]').val()
+          	   nickname: $('input[name=r_nickname]').val()
                })
              ,contentType : 'application/json; charset=utf-8'
              ,dataType    : 'json'
              ,success     : function(data) { 
-          	   username = $('input[name=nickname]').val();
+            	nickname = $('input[name=r_nickname]').val();
           	   if (data.result) {
           	       
-                     $('#regist').modal('hide');
+                     $('#registerModal').modal('hide');
                      
-                     bootbox.alert(username + '는 사용 가능한 아이디입니다.', function() {
-                         $('#regist').modal('show');
-                  	   $('input[name=nickname_check]').val('Y');
-                  	   $('input[name=email]').focus().select();
+                     bootbox.alert(nickname + '는 사용 가능한 닉네임입니다.', function() {
+                         $('#registerModal').modal('show');
+                  	   $('input[name=r_nickname_check]').val('Y');
+                  	   $('input[name=r_email]').focus().select();
                      
                      });
           	   } else {
-          	       $('#regist').modal('hide');
+          	       $('#registerModal').modal('hide');
                      
-                     bootbox.alert(username + '는 이미 사용중입니다. 다른 아이디를 사용하세요.', function() {
-                         $('#regist').modal('show');
-                  	   $('input[name=nickname]').val('');
-                         $('input[name=nickname]').focus().select();
+                     bootbox.alert(nickname + '는 이미 사용중입니다. 다른 닉네임을 사용하세요.', function() {
+                         $('#registerModal').modal('show');
+                  	   $('input[name=r_nickname]').val('');
+                         $('input[name=r_nickname]').focus().select();
                      });
           	   }
                }
              ,error: function(result) {
-                 $('#register').modal('hide');
+                 $('#registerModal').modal('hide');
 
           	   bootbox.alert('통신에 오류가 발생했습니다. 잠시 후에 다시 사용하세요.', function() {
-                     $('#register').modal('show');
+                     $('#registerModal').modal('show');
           	   });
              }
           });
           
         } else { 
-            $('#register').modal('hide');
+            $('#registerModal').modal('hide');
 
       	  bootbox.alert('사용자명을 넣어주세요.', function() {
-                $('#register').modal('show');
-                $('input[name=nickname]').focus();
+                $('#registerModal').modal('show');
+                $('input[name=r_nickname]').focus();
       	  });
         }
         return false;
@@ -238,7 +238,7 @@
     
         
     $('button#email_check').bind('click', email_check_form);
-    $('input[name=email]').focus();
+    $('input[name=r_email]').focus();
   });
 </script>
 
@@ -251,7 +251,7 @@
 			
 		<!-- 회원가입 화면 --> 
 		{% from "_formhelpers.html" import render_field %}
-			<form class="form-horizontal" action='#' method="POST">
+			<form class="form-horizontal" action="{{ url_for('minicommunity.register_member') }}" method="POST">
 
 
 	<!-- 회원가입 모달 -->
@@ -273,12 +273,12 @@
 					<label class="control-label" for="email">이메일</label>
 					<div class="controls">
 						{% if member %} 
-							{{ render_field(rform.email, class="input-xlarge", placeholder="문자와 숫자로 공백없이 입력해주세요.", readOnly="True") }}
+							{{ render_field(rform.r_email, class="input-xlarge", placeholder="문자와 숫자로 공백없이 입력해주세요.", readOnly="True") }}
 						{% else %}
 							<div class="input-append">
-								{{ render_field(rform.email, class="input-xlarge", placeholder="문자와 숫자로 공백없이 입력해주세요.") }}
+								{{ render_field(rform.r_email, class="input-xlarge", placeholder="문자와 숫자로 공백없이 입력해주세요.") }}
 								<button id="email_check" class="btn btn-primary">중복 확인</button>
-								{{ render_field(rform.email_check) }}
+								{{ render_field(rform.r_email_check) }}
 							</div>
 						{% endif %}
 					</div>
@@ -288,12 +288,12 @@
 					<label class="control-label" for="nickname">닉네임</label>
 					<div class="controls">
 						{% if member %} 
-							{{ render_field(rform.nickname, class="input-xlarge", placeholder="문자와 숫자로 공백없이 입력해주세요.", readOnly="True") }} 
+							{{ render_field(rform.r_nickname, class="input-xlarge", placeholder="문자와 숫자로 공백없이 입력해주세요.", readOnly="True") }} 
 						{% else %}
 							<div class="input-append">
-								{{ render_field(rform.nickname, class="input-xlarge", placeholder="문자와 숫자로 공백없이 입력해주세요.") }}
+								{{ render_field(rform.r_nickname, class="input-xlarge", placeholder="문자와 숫자로 공백없이 입력해주세요.") }}
 								<button id="nickname_check" class="btn btn-primary">확인</button>
-								{{ render_field(rform.nickname_check) }}
+								{{ render_field(rform.r_nickname_check) }}
 							</div>
 						{% endif %}
 					</div>
@@ -303,10 +303,10 @@
 					<label class="control-label" for="password">비밀번호</label>
 					<div class="controls">
 						{% if member %}
-							{{ render_field(rform.password, class="input-xlarge", placeholder="Password", readOnly="True") }}
+							{{ render_field(rform.r_password, class="input-xlarge", placeholder="Password", readOnly="True") }}
 						{% else %}
 							<div class="input-append">
-							{{ render_field(rform.password, class="input-xlarge", placeholder="Password") }}
+							{{ render_field(rform.r_password, class="input-xlarge", placeholder="Password") }}
 							</div>
 						{% endif %}
 					</div>
@@ -316,10 +316,10 @@
 					<label class="control-label" for="password_confirm">비밀번호 확인</label>
 					<div class="controls">
 						{% if member %}
-							{{ render_field(rform.password_confirm, class="input-xlarge", placeholder="Password confirm", readOnly="True") }} 
+							{{ render_field(rform.r_password_confirm, class="input-xlarge", placeholder="Password confirm", readOnly="True") }} 
 						{% else %}
 							<div class="input-append">
-							{{ render_field(rform.password_confirm, class="input-xlarge",placeholder="Password confirm") }}
+							{{ render_field(rform.r_password_confirm, class="input-xlarge",placeholder="Password confirm") }}
 							</div>
 						{% endif %}
 					</div>
@@ -331,7 +331,7 @@
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
 			<button type="submit" name="submit" class="btn btn-primary">가입</button>
-			<!-- <a href="{{ url_for('minicommunity.register_member') }}" class="btn btn-success">가입</a> -->
+			<!-- <a href="{{ url_for('minicommunity.register_member') }}" class="btn btn-success">가입1</a> -->
 		</div>
 		</div>
 		</div>
