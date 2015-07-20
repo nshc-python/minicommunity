@@ -39,7 +39,7 @@ def list_anonybbs(): #익명게시판 화면을 호출
 @minicommunity.route('/anonybbs/write', methods=['post'])
 @login_required
 def write_content(): #게시글을 DB에 저장하기
-#    Log.debug('anony2')
+    Log.debug('anony2')
     form = ContentForm(request.form)
 
     # HTTP POST로 요청이 오면 사용자 정보를 등록
@@ -75,12 +75,8 @@ def write_content(): #게시글을 DB에 저장하기
         
 class ContentForm(Form):
     content = \
-        TextField('content',[validators.Length(
+        TextField('content',[validators.Required('비밀번호를 입력하지 않으셨습니다.'),
+                             validators.Length(
                                 min=10,
                                 max=1000,
-                                message='글을 입력해주세요')])
-    
-
-
-    
-    
+                                message='글을 10자 이상 입력해주세요')])
