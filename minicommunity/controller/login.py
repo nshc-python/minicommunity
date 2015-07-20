@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from flask import request, render_template, session, url_for, redirect, current_app
+from flask import request, render_template, session, url_for, redirect, current_app, jsonify
 from werkzeug.security import check_password_hash
-from wtforms import Form, TextField, validators
 from minicommunity.minicommunity_logger import Log
 from minicommunity.minicommunity_blueprint import minicommunity
 from minicommunity.model.member import Member
 from minicommunity.minicommunity_database import dao
 from functools import wraps
-from wtforms.fields.simple import HiddenField, PasswordField
-from minicommunity.controller.register_member import RegisterForm
+from minicommunity.controller.register_form import RegisterForm
+from minicommunity.controller.login_form import LoginForm
 #test import#
 from datetime import datetime
 from werkzeug import generate_password_hash
@@ -49,7 +48,8 @@ def login_form(): #로그인 화면을 호출
     form = LoginForm(request.form)
     rform = RegisterForm(request.form)
     
-    return render_template('login.html', next_url=next_url, form=form, rform=rform, regist_member=regist_member)
+    return render_template('login.html', next_url=next_url, form=form, 
+                           rform=rform, regist_member=regist_member)
 
 # 이것은 오직 테스트 멤버를 만들기 위해서만 쓰이는 함수임
 @minicommunity.route('/member/ctest')
@@ -130,8 +130,11 @@ def login(): #로그인 프로세싱
             login_error = 'YOU do NOT exist'        
             Log.debug(str(8))
             return redirect(url_for('.login_form')) 
-            
-    return redirect(url_for('.index'))
+    else:
+        Log.debug(1234567890)
+        login_error = '이메일과 비밀번호를 확인해주세요.'
+        return render_template('login.html',next_url=next_url, rform=rform, form=form, error=login_error)
+#        return redirect(url_for('.login', form=form, error=login_error))
 
 @minicommunity.route('/')
 @login_required
@@ -144,19 +147,32 @@ def index():
 def logout():
     session.clear()
     return redirect(url_for('.index')) #로그인 끝나면 초기페이지로 돌아감 
-           
-
-class LoginForm(Form): #로그인에 필요한 정보를 규정 
-    email = \
-        TextField('email',[
-                validators.Required('이메일을 입력해주세요'),
-                validators.Length(min=5,max=40,message='이메일 제대로 써주세요'),
-                validators.Regexp(r'[A-Za-z0-9@-_.]', message='이메일 제대로 써주세요')])
-
-    password = \
-        PasswordField('password',[
-                validators.Required('비밀번호를 입력해주세요'),
-                validators.Length(min=5, max=20, message='비밀번호를 입력해주셈'),
-                validators.Regexp(r'[A-Za-z0-9]', message='비밀번호를 입력해주셈')])
+  
+@minicommunity.route('/member/login_check', methods=['POST'])
+def login_check(): #로그인시 팝업창을 띄우기 위한 것
+    email = request.json['email']
+    password = request.json['password']
     
-    next_url = HiddenField('next_url')
+    Log.debug('email : '+email)
+    Log.debug('password : '+password)
+    
+    #: DB에서 email 및 Password 중복 확인 
+    if __get_member(email, password) :
+        return jsonify(result = False)
+    else:
+        return jsonify(result = True)
+
+def __get_member(email, password): #로그인 체크시 멤버 정보 가져오기 
+    try:
+        current_member = dao.query(Member) \
+                            .filter_by(email=email, password=password) \
+                            .first()
+        
+        Log.debug('aaaa'+current_member)
+        return current_member
+    except Exception as e:
+        Log.error(str(e))
+        raise e
+
+             
+
