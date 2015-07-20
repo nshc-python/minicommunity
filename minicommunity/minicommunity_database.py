@@ -8,6 +8,7 @@ DB연결 및 사용을 위한 연결 모듈
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from minicommunity.minicommunity_logger import Log
 
 class DBManager(object):
     '''
@@ -21,8 +22,12 @@ class DBManager(object):
         DBManager.__engine = create_engine(db_url, echo=db_log_flag)
         DBManager.__session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=DBManager.__engine))
         
-        global dbo
+        Log.debug("-----------------")
+        Log.debug(DBManager.__session)
+        Log.debug(DBManager.__engine)
+        global dao
         dao = DBManager.__session
+        Log.debug(str(dao))
         
     @staticmethod
     def init_db():

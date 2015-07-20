@@ -12,21 +12,20 @@ from sqlalchemy import Column, Integer, String, DateTime, Text
 from minicommunity.model import Base
 
 
-class AnonyBBS(Base):
+class AnonyBBS(Base): 
     __tablename__ = 'anonybbs'
 
-    sno = Column(Integer, nullable=False, autoincrement=True, primary_key=True)
+    sno = Column(Integer, nullable=False, autoincrement=False, primary_key=True) #시리얼넘버
     writeremail = Column(String(20), nullable=False) #작성자 아이디(이메일)
     content = Column(Text) #내용
-    picturefile = Column(String(30), nullable=False) #사진파일이름
+    picturefile = Column(String(30), nullable=True) #사진파일이름
     cdatetime = Column(DateTime, nullable=False) #생성날짜시간
-        
 
-
-    def __init__(self, writeremail, content, picturefile, cdatetime):
+    def __init__(self, sno, writeremail, content, picturefile, cdatetime):
         '''
         AnonyBBS 클래스를 초기화한다.
         '''
+        self.sno = sno
         self.writeremail = writeremail
         self.content = content
         self.picturefile = picturefile

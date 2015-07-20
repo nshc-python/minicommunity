@@ -25,7 +25,7 @@ class Member(Base):
     '''
     __tablename__ = 'member'
 
-    sno = Column(Integer, nullable=False, autoincrement=True, primary_key=False)
+    sno = Column(Integer, nullable=True, autoincrement=False, primary_key=False)
     email = Column(String(20), primary_key=True, nullable=False)
     password = Column(String(40))
     nickname = Column(String(20), nullable=False)
@@ -38,6 +38,7 @@ class Member(Base):
         '''
         Member 클래스를 초기화한다.
         '''
+        self.sno = ''
         self.email = email
         self.password = password
         self.nickname = nickname
