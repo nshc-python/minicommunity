@@ -8,12 +8,11 @@ from minicommunity.minicommunity_blueprint import minicommunity
 from minicommunity.minicommunity_logger import Log
 from minicommunity.minicommunity_database import dao
 from minicommunity.model.member import Member
+from minicommunity.controller.login import LoginForm
+from minicommunity.controller.register_form import RegisterForm
 
 from flask import request, url_for, jsonify
 from flask.templating import render_template
-from wtforms.form import Form
-from wtforms.fields.simple import TextField, PasswordField, HiddenField
-from wtforms import validators
 from werkzeug.security import generate_password_hash
 from werkzeug.utils import redirect
 #from sqlalchemy.types import DateTime
@@ -32,6 +31,7 @@ def register_member_form():
 def register_member():
     '''미니 커뮤니티 사용자 등록하는 액션'''
     
+    form = LoginForm(request.form)
     rform = RegisterForm(request.form)
 
     if rform.validate():
@@ -60,13 +60,25 @@ def register_member():
             raise e
         
         else:
+            success = '회원가입이 정상처리되었습니다. 가입한 이메일로 로그인 하세요!'
+            return render_template('login.html', 
+                   register_success=success,
+                   form=form,
+                   rform=rform)
             # 성공적으로 사용자 등록이 되면 로그인 화면으로 이동한다.
-            return redirect(url_for('.login',
-                                    register_member_name=nickname))
-            
+#             return redirect(url_for('.login',
+#                                     register_member_name=nickname,
+#                                     register_success=success))
     else:
-        return redirect(url_for('.login', form=rform))
-    
+        login_error = '회원가입이 제대로 처리되지 않았습니다. 가입하기 버튼을 다시 눌러 이유를 확인하세요!'
+        next_url=''
+        form = LoginForm(request.form)
+        
+        return render_template('login.html', 
+                   next_url=next_url, 
+                   error=login_error,
+                   form=form, 
+                   rform=rform)
 
 @minicommunity.route('/member/check_email', methods=['POST'])
 def check_email():
@@ -117,38 +129,3 @@ def __get_member_from_nickname(nick):
     except Exception as e:
         Log.error(str(e))
         raise e
-            
-
-class RegisterForm(Form):
-    # 사용자 등록화면에서 입력값을 검증
-    r_email = TextField('Email',
-                      [validators.Required('Email을 입력하세요.'),
-                       validators.Length(
-                                         min=5,
-                                         max=40,
-                                         message='5자 이상 40자 이하로 입력하세요.'),
-                       validators.Email(message='이메일 형식에 맞지 않습니다.')])
-    
-    r_nickname = TextField('Nickname',
-                         [validators.Required('화면에 표시될 닉네임을 입력하세요.'),
-                          validators.Length(
-                                            min=2,
-                                            max=30,
-                                            message='2자이상 30자 이하로 입력하세요.')])
-    
-    r_password = PasswordField('New password',
-                             [validators.Required('비밀번호를 입력하세요.'),
-                              validators.Length(
-                                                min=4,
-                                                max=20,
-                                                message='4자이상 20자 이하로 입력하세요.'),
-                              validators.EqualTo('r_password_confirm',
-                                                 message='비밀번호가 일치하지 않습니다.')])
-    
-    r_password_confirm = PasswordField('Confirm password')
-    
-    r_email_check = HiddenField('Check email',
-                                 [validators.Required('중복되는 이메일이 있습니다.')])
-    
-    r_nickname_check = HiddenField('Check nickname',
-                                 [validators.Required('중복되는 닉네임이 있습니다.')])
