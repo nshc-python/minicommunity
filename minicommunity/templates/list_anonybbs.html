@@ -85,9 +85,10 @@
 	<input type="button" value="Preview" name="Preview" onClick="DoPreview()">
 	<input type="hidden" name="height" value="0">
 	<input type="hidden" name="width" value="0">	 -->
+	
     
     <!-- 등록버튼 -->
-	<button type="submit" name="content_submit" class="btn btn-success" >등록 </button>
+	<button type="submit" name="content_submit" class="btn btn-success">등록 </button>
 </form>
 		
 	<!-- 공간주기 -->
@@ -96,53 +97,41 @@
 	</div>
 
 	<!-- 게시판 구성 -->
+	<script type="text/javascript">
+	</script>
+
+	{% for anonydata in anonylist %}
 	
 	<div class="panel panel-default">
   	<div class="panel-heading">
-    <h3 class="panel-title">mm/dd/yyyy</h3>
+    <h3 class="panel-title">{{ anonydata.getCdatetime().strftime('%Y-%m-%d %H:%M') }}</h3>
   	</div>
   	<div class="panel-body">
-    you are amazing baby
+    {{ anonydata.getContent() }}
   	</div>
 	</div>
 	
-	<div class="panel panel-default">
-  	<div class="panel-heading">
-    <h3 class="panel-title">mm/dd/yyyy</h3>
-  	</div>
-  	<div class="panel-body">
-    you are amazing baby
-  	</div>
-	</div>
+	{% endfor %}
 	
-	<div class="panel panel-default">
-  	<div class="panel-heading">
-    <h3 class="panel-title">mm/dd/yyyy</h3>
-  	</div>
-  	<div class="panel-body">
-    you are amazing baby
-  	</div>
-	</div>
 	
-	<div class="panel panel-default">
-  	<div class="panel-heading">
-    <h3 class="panel-title">mm/dd/yyyy</h3>
-  	</div>
-  	<div class="panel-body">
-    you are amazing baby
-  	</div>
-	</div>
 	
 	<!-- Page -->
+	
+{% if pagination %}
+	{% from "_pagehelpers.html" import render_pagination %}
+	{{ render_pagination(pagination) }}
 	<nav>
 	  <ul class="pager">
 	    <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> 이전 페이지 </a></li>
 	    <li class="next"><a href="#">다음 페이지 <span aria-hidden="true">&rarr;</span></a></li>
 	  </ul>
 	</nav>
+{% else %}
+        <!-- do nothing! -->
+{% endif %}
 	
 
-</div>
+	</div>
 	
 	{% endblock %}
 
