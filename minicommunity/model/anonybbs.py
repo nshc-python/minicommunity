@@ -34,4 +34,16 @@ class AnonyBBS(Base):
     def __repr__(self):
         """모델의 주요 정보를 출력한다."""        
         
-        return '<AnonyBBS %r %r>' % (self.writeremail, self.cdatetime)
+        return '<AnonyBBS %r %r %r %r>' % (self.writeremail, self.content, self.picturefile, self.cdatetime)
+    
+    def getContent(self):
+        return self.content
+    
+    def getWriteremail(self):
+        return self.writeremail
+
+    def getPicturefile(self):
+        return self.picturefile
+    
+    def getCdatetime(self):
+        return self.cdatetime
