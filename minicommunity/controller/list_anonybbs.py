@@ -16,6 +16,7 @@ from minicommunity.minicommunity_logger import Log
 from wtforms import Form, TextField, validators
 from datetime import datetime
 from minicommunity.model.anonybbs import AnonyBBS
+from minicommunity.model.anonybbs_delreq import AnonyBBSDelReq
 from minicommunity.minicommunity_database import dao
 from sqlalchemy import func
 
@@ -26,6 +27,7 @@ def list_anonybbs(): #익명게시판 화면을 호출
 
     form = ContentForm(request.form)
     sess = session['member_info']
+    
     if sess:
         nickname = session['member_info'].nickname  #layout에 들어갈 nickname을 세션에서 얻어옴 
         Log.info("nickname : "+nickname);
@@ -96,7 +98,36 @@ def write_content(): #게시글을 DB에 저장하기
     else:
 #         return render_template('list_anonybbs.html', form=form)
         return redirect(url_for('.list_anonybbs'))
+
+
+#삭제요청하면 DB에 저장 
+def requestDeletes(bbsno):
     
+    memberid = session['member_info'].email
+    rdatetime = datetime.today() #삭제요청한날짜
+    
+    try:
+        delreq = AnonyBBSDelReq(bbsno, memberid, rdatetime)
+        dao.add(delreq)
+        dao.commit()
+
+    except Exception as e:
+        dao.rollback()
+        Log.error("Upload DB error : " + str(e))
+        raise e
+    
+    return redirect(url_for('.list_anonybbs'))
+
+@minicommunity.route('/anonybbs/delreq') 
+@login_required  
+def showDelreq():
+    admindata = session['adminyn']
+    Log.debug('admindata' + admindata)
+    #dao.query()
+    
+    return render_template('requesteddeletes.html', adminyn=admindata)
+
+ 
 
 class ContentForm(Form):
     content = \

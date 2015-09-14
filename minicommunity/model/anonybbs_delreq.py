@@ -5,7 +5,7 @@ Created on 2015. 4. 6.
 @author: Soobin
 '''
 
-from sqlalchemy import Column, Integer, DateTime, Text, ForeignKey
+from sqlalchemy import Column, Integer, DateTime, String, ForeignKey
 
 from minicommunity.model.anonybbs import AnonyBBS
 
@@ -16,15 +16,15 @@ class AnonyBBSDelReq(Base):
     __tablename__ = 'anonybbs_delreq' #삭제요청 
 
     bbssno = Column(Integer, ForeignKey(AnonyBBS.sno), primary_key='True') #게시판아이디(순번)
-    reason = Column(Text) #삭제요청사유
+    memberid = Column(String(20)) #삭제요청자
     rdatetime = Column(DateTime, primary_key='True') #삭제요청날짜시간
 
-    def __init__(self, bbssno, reason, rdatetime):
+    def __init__(self, bbssno, memberid, rdatetime):
         '''
         AnonyBBSDelReq 클래스를 초기화한다.
         '''
         self.bbssno = bbssno
-        self.reason = reason
+        self.memberid = memberid
         self.rdatetime = rdatetime
         
     def __repr__(self):

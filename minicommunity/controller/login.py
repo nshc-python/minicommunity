@@ -117,6 +117,11 @@ def login(): #로그인 프로세싱
                 # 사용자 정보를 구성하여 session 객체에 추가
                 session['member_info'] = member
                 
+                if member.email == 'polarhee@nshc.net' or member.email == 'sbpark@nshc.net':
+                    session['adminyn'] = 'Y'
+                else:
+                    session['adminyn'] = 'N'
+                
                 Log.debug(str(7))
                 
                 if next_url != '': #다음에 이동할 주소 값이 있다면.. 그곳으로 이동한다.
