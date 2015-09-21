@@ -39,36 +39,20 @@
   <body width="100%">
 
 	<div id="header-menu" class="span12" style="width: 100%;">
-		<div class="navbar navbar-inverse navbar-fixed-top">
-	      <div class="navbar-inner">
-	        <div class="container-fluid">
-	          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	          </button>
-		      <a class="brand" href="{ url_for('minicommunity.list_anonybbs') }}">&nbsp;<i class="icon-picture"></i>Minicommunity Home</a>
-	          <div class="nav-collapse collapse">
-	            <ul class="nav"> <!-- 여기서 나오는 모든 url_for은 임시로 login으로 돌려놓음, user은 member로 수 -->
-		        		<li class="active"><a  href="{{ url_for('minicommunity.login') }}" ><i class="icon-map-marker icon-large"></i> 지도에서 사진보기 </a></li>
-		        		<li class="active"><a  href="{{ url_for('minicommunity.login') }}" ><i class="icon-th-list icon-large"></i> 사진 목록 보기 </a></li>
-		        		<li class="active">
-					<a  href="{{ url_for('minicommunity.login') }}" ><i class="icon-camera-retro icon-large"> 사진 올리기 </i></a>
-					</li>
-			     </ul>
-	            <ul class="nav pull-right">
-                    <li><a href="{% if session.__contains__('member_info') %}{{ url_for('minicommunity.login', email=session.member_info.member) }}{% endif %}"><i class="icon-pencil"></i> 개인정보 수정</a></li>
-                    <li><a id="logout" href="#" class="navbar-link"><i class="icon-user"></i> Logout</a></li>
-				</ul>
-				<form class="navbar-search pull-left form-search" action="{{ url_for('minicommunity.login') }}" method="POST">
-					<div class="input-append">
-						<input type="text" name="search_word" class="input-small search-query" placeholder="Search" {% if search_word %} value='{{search_word}}' {% endif %}>
-						<button type="submit" class="btn btn-primary"><i class="icon-search"></i></button>
-					</div>
-				</form>
-	          </div><!--/.nav-collapse -->
-	        </div>
-	      </div>
+		<div class="navbar navbar-default navbar-fixed-top">
+			<a class="navbar-brand" href="{{ url_for('minicommunity.list_anonybbs') }}">&nbsp;<i class="icon-picture"></i>Minicommunity Home</a>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">익명게시판</a></li>
+        <li><a href="#">영화게시판</a></li>
+        <li><a href="#">유용한도구모음</a></li>
+        <li><a href="#">개인정보 수정</a></li>
+        <li><a href=
+        </ul>
+        </div>
+			
+<!-- 			<p><a href="{% if session.__contains__('member_info') %}{{ url_for('minicommunity.login', email=session.member_info.member) }}{% endif %}"><i class="icon-pencil"></i> 개인정보 수정</a></p> -->
+	        <a class="navbar-text navbar-right pull-right">Logout</a>
 	    </div>
 	</div><!-- header -->
 
@@ -88,14 +72,14 @@
 
 	<!-- footer begin -->
     <div id="footer" class="span12">
-        <div class="navbar navbar-inverse navbar-fixed-bottom">
-            <div class="navbar-inner">
+        <div class="navbar navbar-default navbar-fixed-bottom">
+            <!-- <div class="navbar-inner">
                 <div class="container">
                     <div id="footer-menu" class="nav-collapse collapse">
                         <p id="since" class="navbar-text">Since 2013</p>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 
