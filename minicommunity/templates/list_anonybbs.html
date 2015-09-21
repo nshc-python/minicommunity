@@ -98,13 +98,46 @@
 
 	<!-- 게시판 구성 -->
 	<script type="text/javascript">
+	function showRemoveRequestDialog() {
+		//alert('삭제요청하심요');
+		$('#myModal').modal('show');
+	}
+	
+	$(function() {
+		var deleteReqSave = function(e) {
+			alert('삭제요청했어요' + e);
+		}
+		
+		$('button#delreqOK').bind('click',deleteReqSave);
+	});
+	
+	
+	
 	</script>
+
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" id="myModal" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm"> 
+    <div class="modal-content">
+    <div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel">삭제 요청 </h4></div>
+    <div class="modal-body"> 삭제 요청을 하시겠습니까?<br/>(3인 이상 삭제 요청시 게시글을 삭제합니다.)</div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">아닙니다</button>
+        <button id="delreqOK" type="button" class="btn btn-primary" >그래도 삭제요청 할래요</button></div>
+    </div>
+  </div>
+</div>
+	
 
 	{% for anonydata in anonylist %}
 	
 	<div class="panel panel-default">
   	<div class="panel-heading">
-    <h3 class="panel-title">{{ anonydata.getCdatetime().strftime('%Y-%m-%d %H:%M') }}</h3>
+    <h3 class="panel-title">{{ anonydata.getCdatetime().strftime('%Y-%m-%d %H:%M') }} 
+     	<a href="javascript:showRemoveRequestDialog();">
+    		<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+     	</a>
+	</h3>
   	</div>
   	<div class="panel-body">
     {{ anonydata.getContent() }}
