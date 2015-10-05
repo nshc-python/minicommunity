@@ -8,7 +8,7 @@ copyright: (c) 2015 by Soobin Park and Po La Rhee
 
 --------------------------------------------------"""
 
-from flask import render_template, session, request, url_for #current_app
+from flask import render_template, session, request, url_for, jsonify #current_app
 from werkzeug import redirect
 from minicommunity.controller.login import login_required
 from minicommunity.minicommunity_blueprint import minicommunity
@@ -45,7 +45,7 @@ def list_anonybbs(): #익명게시판 화면을 호출
         Log.info("sess is none!");
 
     return render_template('list_anonybbs.html', 
-                           form=form, 
+                           form=form,
                            nickname=nickname, 
                            anonylist=selectedData)
 
@@ -81,7 +81,10 @@ def write_content(): #게시글을 DB에 저장하기
 
         try : #DB에 저장 #anonybbs=0은 임시 
             temp = dao.query(func.max(AnonyBBS.sno)).first()
-            snocount = int(temp[0]) + 1;
+            if temp[0] == None:
+                snocount = 1
+            else:
+                snocount = int(temp[0]) + 1;
             Log.debug("snocount : "+str(snocount));
             BBSdata = AnonyBBS(snocount, writeremail, content, picturefile, written_date) #BBS의 약자는 bulletin board system 
             dao.add(BBSdata)
@@ -101,31 +104,41 @@ def write_content(): #게시글을 DB에 저장하기
 
 
 #삭제요청하면 DB에 저장 
-def requestDeletes(bbsno):
-    
+@minicommunity.route('/anonybbs/delreq', methods=['post']) 
+@login_required 
+def requestDeletes():
+    bbsno = request.json['bbsno']
     memberid = session['member_info'].email
     rdatetime = datetime.today() #삭제요청한날짜
+    s_or_f = 'fail'
     
     try:
         delreq = AnonyBBSDelReq(bbsno, memberid, rdatetime)
         dao.add(delreq)
         dao.commit()
-
+        s_or_f = 'success'
     except Exception as e:
         dao.rollback()
         Log.error("Upload DB error : " + str(e))
         raise e
     
-    return redirect(url_for('.list_anonybbs'))
+    
+    #return redirect(url_for('.list_anonybbs'))
+    if s_or_f == 'success':
+        return jsonify(result = True)
+    else:
+        return jsonify(result = False)
 
-@minicommunity.route('/anonybbs/delreq') 
+@minicommunity.route('/anonybbs/showdelreq') 
 @login_required  
 def showDelreq():
+    
     admindata = session['adminyn']
     Log.debug('admindata' + admindata)
     #dao.query()
     
     return render_template('requesteddeletes.html', adminyn=admindata)
+    #return jsonify(adminyn = admindata)
 
  
 
