@@ -31,3 +31,4 @@ class AnonyBBSDelReq(Base):
         """모델의 주요 정보를 출력한다."""        
         
         return '<AnonyBBSDelReq %r %r>' % (self.bbssno, self.rdatetime)
+    
