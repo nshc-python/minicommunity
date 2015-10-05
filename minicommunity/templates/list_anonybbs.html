@@ -1,75 +1,63 @@
-{# layout 호출 #}
-{% extends "layout.html" %}
+{# layout 호출 #} {% extends "layout.html" %} {# 윈도우 창에 표시될 이름 #} {% block
+title %}익명게시판{% endblock %} {# Header #} {% block head %} {{ super() }}
+{% endblock %} {# Body #} {% block content %}
+<div class="container-fluid">
+	<h1>{{ nickname }}의 익명게시판</h1>
 
-{# 윈도우 창에 표시될 이름 #}
-{% block title %}익명게시판{% endblock %} 
-
-
-{# Header #}
-
-{% block head %}
-  {{ super() }}
-{% endblock %}
-
-
-{# Body #}
-
-{% block content %}
-	<div class="container-fluid">
-		<h1>{{ nickname }}의 익명게시판 </h1>
-
-	<!-- NOTIFICATION -->	
+	<!-- NOTIFICATION -->
 	<div class="alert alert-danger" role="alert">
-	<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-	<span class="sr-only">Error:</span>
-	이 곳은 익명으로 글을 올릴 수 있는 공간입니다. 음란글이나 서로에 대한 비방은 삼가해주세요.
+		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		<span class="sr-only">Error:</span> 이 곳은 익명으로 글을 올릴 수 있는 공간입니다. 음란글이나
+		서로에 대한 비방은 삼가해주세요.
 	</div>
-	
-	
+
+
 	<!-- SEARCH BAR -->
 	<div class="well">
-	
-		
-		
+
+
+
 		<!-- Calendar -->
 		<form class="form-inline">
-		<div class="input-daterange input-group" id="datepicker">
-	    <input type="text" class="input-sm form-control" name="start" data-provide="datepicker"/>
-	    <span class="input-group-addon">to</span>
-	    <input type="text" class="input-sm form-control" name="end" data-provide="datepicker" />
-		</div>
-		
-        <script type="text/javascript">
+			<div class="input-daterange input-group" id="datepicker">
+				<input type="text" class="input-sm form-control" name="start"
+					data-provide="datepicker" /> <span class="input-group-addon">to</span>
+				<input type="text" class="input-sm form-control" name="end"
+					data-provide="datepicker" />
+			</div>
+
+			<script type="text/javascript">
         $('.datepicker').datepicker({
             format: 'mm/dd/yyyy',
             startDate: '-3d',
             language: "kr"
         })
         </script>
-        
-		<!-- search box -->
-		<div class="form-group">
-		<input type="text" class="form-control" placeholder="Search">
-		</div>
-		<button type="submit" class="btn btn-default">검색</button>
+
+			<!-- search box -->
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+			<button type="submit" class="btn btn-default">검색</button>
 		</form>
-	
+
 	</div>
-	
+
 	<!-- 게시글 작성 부분 -->
 
-{% from "_formhelpers.html" import render_field %}
-<form id="write" name="write" class="form-horizontal span12" 
-	method="POST" 
-	action="{{ url_for('minicommunity.write_content') }}" 
-	enctype="multipart/form-data">
-	
-	{{ render_field(form.content, class="form-control", placeholder="Content") }}
+	{% from "_formhelpers.html" import render_field %}
+	<form id="write" name="write" class="form-horizontal span12"
+		method="POST" action="{{ url_for('minicommunity.write_content') }}"
+		enctype="multipart/form-data">
 
-    <!-- thumbnail --> 
-    <img id="uploadPreview" style="width: 100px; height: 100px;"/>
-	<input id="uploadImage" type="file" name="myPhoto" onchange="PreviewImage();" />
-	<script type="text/javascript">
+		{{ render_field(form.content, class="form-control",
+		placeholder="Content") }}
+
+		<!-- thumbnail -->
+		<img id="uploadPreview" style="width: 100px; height: 100px;" /> <input
+			id="uploadImage" type="file" name="myPhoto"
+			onchange="PreviewImage();" />
+		<script type="text/javascript">
 		  function PreviewImage() {
 		    var oFReader = new FileReader();
 		    oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
@@ -79,60 +67,138 @@
 		  };
 	</script>
 
-	<!-- thumbnail2 --><!-- 
+		<!-- thumbnail2 -->
+		<!-- 
 	<form method="post" action="filesave.cfm" enctype="multipart/form-data" name="form1">
 	<input type="file" name="filesent" onSubmit="return CheckUpload()">
 	<input type="button" value="Preview" name="Preview" onClick="DoPreview()">
 	<input type="hidden" name="height" value="0">
 	<input type="hidden" name="width" value="0">	 -->
-	
-    
-    <!-- 등록버튼 -->
-	<button type="submit" name="content_submit" class="btn btn-success">등록 </button>
-</form>
-		
+
+
+		<!-- 등록버튼 -->
+		<button type="submit" name="content_submit" class="btn btn-success">등록
+		</button>
+	</form>
+
 	<!-- 공간주기 -->
 	<div class="row">
-	<div class="col-md-6 col-md-offset-3"><br><br/></div>
+		<div class="col-md-6 col-md-offset-3">
+			<br> <br />
+		</div>
 	</div>
 
 	<!-- 게시판 구성 -->
 	<script type="text/javascript">
+	function showRemoveRequestDialog(sno) {
+		$bbsno = sno;
+		//alert('삭제요청하심요');
+		$('#myModal').modal('show');
+	};
+	
+	$(function() {
+		var deleteReqSave = function(e) {
+			//alert('삭제요청했어요' + e);
+			//아작스 사용법은 
+			$.ajax({
+	        	url         : '/anonybbs/delreq'
+	           ,type        : 'POST'
+	           ,cache       : true
+	           ,data        : JSON.stringify({
+	        	   bbsno: $bbsno
+	             })
+	           ,contentType : 'application/json; charset=utf-8'
+	           ,dataType    : 'json'
+	           ,success     : function(result) {
+	        	   //bbsno: $('input[bbsno=r_bbsno]').val();
+	        	   //rdatetime: $('input[rdatetime=r_rdatetime]').val();
+	        	   if (result) {
+	        	       alert('success');
+	                   $('#delreqOK').modal('hide');
+	               } else {
+	            	   alert('fail');
+	               }
+	        	}
+        		,error: function(result) {
+        			$('#delreqOK').modal('hide');
+
+                	bootbox.alert('통신에 오류가 발생했습니다. 잠시 후에 다시 사용하세요.', function() {
+                    	$('#delreqOK').modal('show');
+        		   	})
+				}
+			})
+		}
+	                   
+			//아작스 여기까지 
+		
+		
+		$('button#delreqOK').bind('click',deleteReqSave);
+	});
+	
+	
+	
 	</script>
 
-	{% for anonydata in anonylist %}
-	
-	<div class="panel panel-default">
-  	<div class="panel-heading">
-    <h3 class="panel-title">{{ anonydata.getCdatetime().strftime('%Y-%m-%d %H:%M') }}</h3>
-  	</div>
-  	<div class="panel-body">
-    {{ anonydata.getContent() }}
-  	</div>
+	<!-- 모달 형 -->
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" id="myModal"
+		role="dialog" aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">삭제 요청</h4>
+				</div>
+				<div class="modal-body">
+					삭제 요청을 하시겠습니까?<br />(3인 이상 삭제 요청시 게시글을 삭제합니다.)
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">아닙니다</button>
+					<button id="delreqOK" type="button" class="btn btn-primary">그래도
+						삭제요청 할래요</button>
+				</div>
+				<!-- 위 delreqOK를 누르면 자바스크립트가 실행되어 bind를 해준다.  -->
+			</div>
+		</div>
 	</div>
-	
-	{% endfor %}
-	
-	
-	
-	<!-- Page -->
-	
-{% if pagination %}
-	{% from "_pagehelpers.html" import render_pagination %}
-	{{ render_pagination(pagination) }}
-	<nav>
-	  <ul class="pager">
-	    <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> 이전 페이지 </a></li>
-	    <li class="next"><a href="#">다음 페이지 <span aria-hidden="true">&rarr;</span></a></li>
-	  </ul>
-	</nav>
-{% else %}
-        <!-- do nothing! -->
-{% endif %}
-	
 
+
+	{% for anonydata in anonylist %}
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				{{ anonydata.getSno() }}
+				{{ anonydata.getCdatetime().strftime('%Y-%m-%d %H:%M') }} 
+				<a href="javascript:showRemoveRequestDialog({{ anonydata.getSno() }});">
+				<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+				</a>
+
+			</h3>
+		</div>
+		<div class="panel-body">{{ anonydata.getContent() }}</div>
 	</div>
-	
-	{% endblock %}
+
+	{% endfor %}
+
+
+
+	<!-- Page -->
+
+	{% if pagination %} {% from "_pagehelpers.html" import
+	render_pagination %} {{ render_pagination(pagination) }}
+	<nav>
+		<ul class="pager">
+			<li class="previous"><a href="#"><span aria-hidden="true">&larr;</span>
+					이전 페이지 </a></li>
+			<li class="next"><a href="#">다음 페이지 <span aria-hidden="true">&rarr;</span></a></li>
+		</ul>
+	</nav>
+	{% else %}
+	<!-- do nothing! -->
+	{% endif %}
+
+
+</div>
+
+{% endblock %}
 
 

@@ -36,6 +36,9 @@ class AnonyBBS(Base):
         
         return '<AnonyBBS %r %r %r %r>' % (self.writeremail, self.content, self.picturefile, self.cdatetime)
     
+    def getSno(self):
+        return self.sno
+    
     def getContent(self):
         return self.content
     
