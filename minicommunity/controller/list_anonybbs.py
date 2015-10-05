@@ -18,7 +18,7 @@ from datetime import datetime
 from minicommunity.model.anonybbs import AnonyBBS
 from minicommunity.model.anonybbs_delreq import AnonyBBSDelReq
 from minicommunity.minicommunity_database import dao
-from sqlalchemy import func
+from sqlalchemy import func, text
 
 
 @minicommunity.route('/anonybbs/list')
@@ -136,8 +136,29 @@ def showDelreq():
     admindata = session['adminyn']
     Log.debug('admindata' + admindata)
     #dao.query()
+    '''
+    select REQ.bbssno, count(REQ.bbssno), ORIGIN.content
+    from anonybbs_delreq REQ, anonybbs ORIGIN
+    where REQ.bbssno = ORIGIN.sno
+    group by REQ.bbssno
+    order by count(REQ.bbssno)
+    desc
+    '''
+
+    #delreqData = dao.query(AnonyBBSDelReq).order_by(AnonyBBSDelReq.cdatetime.desc()).all() 
+    queryStatement = text(
+                          "select REQ.bbssno SNODATA, count(REQ.bbssno) SNOCOUNT, ORIGIN.content CONTENTDATA "
+                        +"from anonybbs_delreq REQ, anonybbs ORIGIN "
+                        +"where REQ.bbssno = ORIGIN.sno "
+                        +"group by SNODATA "
+                        +"order by SNOCOUNT "
+                        +"desc "
+                          )
+    delreqData = dao.execute(queryStatement).fetchall()
     
-    return render_template('requesteddeletes.html', adminyn=admindata)
+    return render_template('requesteddeletes.html', 
+                           adminyn=admindata, 
+                           delreqList=delreqData)
     #return jsonify(adminyn = admindata)
 
  
