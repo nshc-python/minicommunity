@@ -14,9 +14,18 @@
 
 
 
-<h1>great!</h1>
+<h1>익명게시판 관리자 페이지입니다. </h1>
+<h3>아래 snocount에 3회 이상의 삭제 요청이 기록된 경우 게시글을 삭제해주십시오.  </h3>
 
-    
+<!-- 삭제버튼 누를떄 자바스크립트  -->
+<script type="text/javascript">
+	function deletePosting(sno) {
+		alert('진짜 삭제합니다');
+		location.href='/anonybbs/deletePosting/'+sno;
+	}
+</script>
+	
+<!-- 표 구성 -->
 
 <div class="table-responsive">
   <table class="table table-bordered table-hover">
@@ -32,7 +41,11 @@
 	    <td style="vertical-align:middle"> {{ requestedData['CONTENTDATA'] }}  </td>
     	<td style="text-align:center; vertical-align:middle"> {{ requestedData['SNOCOUNT'] }} </td>
     	<td style="text-align:center; vertical-align:middle">
-    		<button id="delreqOK" type="button" class="btn btn-primary"> 삭제 </button> 
+    		{% if requestedData['DELETESTATUS'] == 'N' %}
+    		<button id="deleteOK" type="button" class="btn btn-primary" onClick="javascript:deletePosting({{ requestedData['SNODATA'] }})"> 삭제 </button>
+    		{% else %}
+    		<h4> 삭제완료 </h4>
+    		{% endif %}
     	</td>
     </tr>
     {% endfor %}

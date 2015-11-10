@@ -18,6 +18,7 @@ class AnonyBBSDelReq(Base):
     bbssno = Column(Integer, ForeignKey(AnonyBBS.sno), primary_key='True') #게시판아이디(순번)
     memberid = Column(String(20)) #삭제요청자
     rdatetime = Column(DateTime, primary_key='True') #삭제요청날짜시간
+    deletestatus = Column(String(1)) #삭제요청후삭제여부 
 
     def __init__(self, bbssno, memberid, rdatetime):
         '''
@@ -26,6 +27,13 @@ class AnonyBBSDelReq(Base):
         self.bbssno = bbssno
         self.memberid = memberid
         self.rdatetime = rdatetime
+        self.deletestatus = 'N'
+        
+    def getDeleteStatus(self):
+        return self.deletestatus
+    
+    def setDeleteStatus(self, status):
+        self.deletestatus = status
         
     def __repr__(self):
         """모델의 주요 정보를 출력한다."""        
