@@ -147,7 +147,7 @@ def showDelreq():
 
     #delreqData = dao.query(AnonyBBSDelReq).order_by(AnonyBBSDelReq.cdatetime.desc()).all() 
     queryStatement = text(
-                          "select REQ.bbssno SNODATA, count(REQ.bbssno) SNOCOUNT, ORIGIN.content CONTENTDATA "
+                          "select REQ.bbssno SNODATA, count(REQ.bbssno) SNOCOUNT, ORIGIN.content CONTENTDATA, REQ.deletestatus DELETESTATUS "
                         +"from anonybbs_delreq REQ, anonybbs ORIGIN "
                         +"where REQ.bbssno = ORIGIN.sno "
                         +"group by SNODATA "
@@ -161,7 +161,31 @@ def showDelreq():
                            delreqList=delreqData)
     #return jsonify(adminyn = admindata)
 
- 
+@minicommunity.route('/anonybbs/deletePosting/<snodata>') 
+@login_required  
+def deleteDelreq(snodata): #선택된게시글db에서삭제 
+    
+    try:
+        Log.debug('0error        ')
+        selectedReq = dao.query(AnonyBBS).filter(AnonyBBS.sno == snodata).first()
+        dao.delete(selectedReq)
+        dao.commit()
+        Log.debug('1error')
+        
+         
+        want2UpdateData = dao.query(AnonyBBSDelReq).filter(AnonyBBSDelReq.bbssno == snodata)
+        for data in want2UpdateData:
+            data.setDeleteStatus('Y')
+        dao.commit()
+        Log.debug('2error')
+        
+        
+    except Exception as e:
+        dao.rollback()
+        Log.error("DeleteBBS error : " + str(e))
+        raise e
+    
+    return redirect(url_for('.showDelreq'))
 
 class ContentForm(Form):
     content = \
