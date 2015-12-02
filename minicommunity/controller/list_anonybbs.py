@@ -19,6 +19,7 @@ from minicommunity.model.anonybbs import AnonyBBS
 from minicommunity.model.anonybbs_delreq import AnonyBBSDelReq
 from minicommunity.minicommunity_database import dao
 from sqlalchemy import func, text
+from sqlalchemy.sql.elements import Null
 
 
 @minicommunity.route('/anonybbs/list')
@@ -131,7 +132,7 @@ def requestDeletes():
 
 @minicommunity.route('/anonybbs/showdelreq') 
 @login_required  
-def showDelreq():
+def showDelreq(): #삭제 요청한 아이들을 보여준다. 
     
     admindata = session['adminyn']
     Log.debug('admindata' + admindata)
@@ -147,12 +148,11 @@ def showDelreq():
 
     #delreqData = dao.query(AnonyBBSDelReq).order_by(AnonyBBSDelReq.cdatetime.desc()).all() 
     queryStatement = text(
-                          "select REQ.bbssno SNODATA, count(REQ.bbssno) SNOCOUNT, ORIGIN.content CONTENTDATA, REQ.deletestatus DELETESTATUS "
-                        +"from anonybbs_delreq REQ, anonybbs ORIGIN "
-                        +"where REQ.bbssno = ORIGIN.sno "
-                        +"group by SNODATA "
-                        +"order by SNOCOUNT "
-                        +"desc "
+                          "select REQ.bbssno SNODATA, count(REQ.bbssno) SNOCOUNT, REQ.deletestatus DELETESTATUS"
+                          +" from anonybbs_delreq REQ"
+                          +" group by REQ.bbssno"
+                          +" order by REQ.deletestatus, count(REQ.bbssno) "
+                          +" desc"
                           )
     delreqData = dao.execute(queryStatement).fetchall()
     
@@ -186,6 +186,32 @@ def deleteDelreq(snodata): #선택된게시글db에서삭제
         raise e
     
     return redirect(url_for('.showDelreq'))
+
+@login_required
+def searchData(searchtext, datefrom, dateto): #게시글을 검색한다
+    
+    searchContent = " select cdatetime CDATETIME, content CONTENT"
+    searchContent += " from anonybbs"
+    searchContent += " where 1=1 "
+    
+    if datefrom is not Null:
+        searchContent += " and cdatetime >= '" + datefrom + "'"
+    
+    if dateto is not Null:
+        searchContent += " and cdatetime <= '" + dateto + "'"
+    
+    if searchtext is not Null:
+        searchContent += " and content like '%" + searchtext + "%'"
+        
+    searchContent += " order by cdatetime "
+    searchContent += " desc"
+                          
+    queryStatement = text(searchContent)    
+    searchedData = dao.execute(queryStatement).fetchall()
+    
+    return render_template('list_anonybbs.html', 
+                       searchedData=searchedData)
+    
 
 class ContentForm(Form):
     content = \

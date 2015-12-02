@@ -31,14 +31,14 @@
   <table class="table table-bordered table-hover">
     <tr>
 	    <td style="text-align:center; vertical-align:middle"> <strong> SNODATA </strong> </td>
-	    <td style="text-align:center; vertical-align:middle"> <strong> CONTENTDATA </strong> </td>
+<!-- 	    <td style="text-align:center; vertical-align:middle"> <strong> CONTENTDATA </strong> </td> -->
     	<td style="text-align:center; vertical-align:middle"> <strong> SNOCOUNT </strong> </td>
     	<td style="text-align:center; vertical-align:middle"> <strong> 삭제 </strong> </td>
     </tr>
     {% for requestedData in delreqList %}
     <tr>
 	    <td style="text-align:center; vertical-align:middle"> {{ requestedData['SNODATA'] }} </td>
-	    <td style="vertical-align:middle"> {{ requestedData['CONTENTDATA'] }}  </td>
+<!-- 	    <td style="vertical-align:middle"> {{ requestedData['CONTENTDATA'] }}  </td> -->
     	<td style="text-align:center; vertical-align:middle"> {{ requestedData['SNOCOUNT'] }} </td>
     	<td style="text-align:center; vertical-align:middle">
     		{% if requestedData['DELETESTATUS'] == 'N' %}
