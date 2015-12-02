@@ -21,17 +21,27 @@ title %}익명게시판{% endblock %} {# Header #} {% block head %} {{ super() }
 		<form class="form-inline">
 			<div class="input-daterange input-group" id="datepicker">
 				<input type="text" class="input-sm form-control" name="start"
-					data-provide="datepicker" /> <span class="input-group-addon">to</span>
+					data-provide="datepicker" /> 
+				<span class="input-group-addon">to</span>
 				<input type="text" class="input-sm form-control" name="end"
 					data-provide="datepicker" />
 			</div>
+			<input type="hidden" id="date_value" value="a">
 
 			<script type="text/javascript">
         $('.datepicker').datepicker({
             format: 'mm/dd/yyyy',
             startDate: '-3d',
             language: "kr"
-        })
+        });
+        
+        $('#datepicker').on("changeDate", function() {
+		    $('#date_value').val(
+		        $('#datepicker').datepicker('getFormattedDate')
+		    );
+		    alert($('#datepicker').datepicker('getDates'));
+		    
+		});
         </script>
 
 			<!-- search box -->
