@@ -8,8 +8,8 @@ copyright: (c) 2015 by Soobin Park and Po La Rhee
 
 --------------------------------------------------"""
 
-from flask import render_template, session, request, url_for, jsonify #current_app
-from werkzeug import redirect
+from flask import render_template, session, request, url_for, jsonify, current_app, send_from_directory
+from werkzeug import redirect, secure_filename
 from minicommunity.controller.login import login_required
 from minicommunity.minicommunity_blueprint import minicommunity
 from minicommunity.minicommunity_logger import Log
@@ -20,6 +20,7 @@ from minicommunity.model.anonybbs_delreq import AnonyBBSDelReq
 from minicommunity.minicommunity_database import dao
 from sqlalchemy import func, text
 from sqlalchemy.sql.elements import Null
+import os
 
 
 @minicommunity.route('/anonybbs/list')
@@ -69,15 +70,23 @@ def write_content(): #게시글을 DB에 저장하기
     if form.validate(): #만일 폼이 있으면~~ 
         #: Session에 저장된 사용자 정보를 셋팅
         writeremail = session['member_info'].email
-        
+
         # Form으로 넘어온 변수들의 값을 셋팅함
         content = form.content.data
         written_date = datetime.today()
-        picturefile = ''
+
+        # Get the name of the uploaded file
+        picturefile = request.files['myPhoto']
+        Log.debug('pictureupload1')  
+        # Check if the file is one of the allowed types/extensions
+        if picturefile and __allowed_file(picturefile.filename): 
+            #안전한 이름으로 바꾸기 
+            securePicturefile = secure_filename(picturefile.filename)
+            Log.debug('pictureupload2')
+            picturefile.save(os.path.join(current_app.config['UPLOAD_FOLDER'], securePicturefile)) 
+        else: 
+            None
         # anonybbs table에서 sno값의 최대값을 구한다음, 구한 값에서 1을 더한 뒤, 그 값을 snocount로 지정하여, write할 때 활용한다.
-        
-        
-    #아직 사진은 아무것도 없으므로 사진의 위치는 제외하고, 글을 담을 위치만 저장한다.
                        
 
         try : #DB에 저장 #anonybbs=0은 임시 
@@ -87,7 +96,7 @@ def write_content(): #게시글을 DB에 저장하기
             else:
                 snocount = int(temp[0]) + 1;
             Log.debug("snocount : "+str(snocount));
-            BBSdata = AnonyBBS(snocount, writeremail, content, picturefile, written_date) #BBS의 약자는 bulletin board system 
+            BBSdata = AnonyBBS(snocount, writeremail, content, securePicturefile, written_date) #BBS의 약자는 bulletin board system 
             dao.add(BBSdata)
             dao.commit()
             
@@ -103,6 +112,11 @@ def write_content(): #게시글을 DB에 저장하기
 #         return render_template('list_anonybbs.html', form=form)
         return redirect(url_for('.list_anonybbs'))
 
+@minicommunity.route('/anonybbs/uploads/<picturename>')
+def uploaded_file(picturename):
+    Log.debug('pictureupload3')
+    return send_from_directory(current_app.config['UPLOAD_FOLDER'],
+                               picturename)
 
 #삭제요청하면 DB에 저장 
 @minicommunity.route('/anonybbs/delreq', methods=['post']) 
