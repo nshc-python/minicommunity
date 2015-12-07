@@ -177,14 +177,18 @@ title %}익명게시판{% endblock %} {# Header #} {% block head %} {{ super() }
 		<div class="panel-heading">
 			<h3 class="panel-title">
 				{{ anonydata.getSno() }}
-				{{ anonydata.getCdatetime().strftime('%Y-%m-%d %H:%M') }} 
+				{{ anonydata.getCdatetime().strftime('%Y-%m-%d %H:%M') }}
 				<a href="javascript:showRemoveRequestDialog({{ anonydata.getSno() }});">
 				<span class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
 				</a>
 
 			</h3>
 		</div>
-		<div class="panel-body">{{ anonydata.getContent() }}</div>
+		<div class="panel-body">{{ anonydata.getContent() }} <br/><br/>
+		{% if anonydata.getPicturefile() != "" %}
+		<img src="/resource/upload/{{ anonydata.getPicturefile() }}" width="400"/>
+		 <!-- <img src=" url_for('uploaded_file', picturename=anonydata.getPicturefile()) " width="400"/>--> 
+		 {% endif %} </div>
 	</div>
 
 	{% endfor %}

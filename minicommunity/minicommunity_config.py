@@ -13,4 +13,4 @@ class MinicommunityConfig(object):
     DB_URL = 'sqlite:///' #: 데이터베이스 연결 URL
     DB_LOG_FLAG = 'True' #: Default SQLAlchemy trace log 설정
     SESSION_COOKIE_NAME = 'minicommunity_session' #: 쿠기에 저장되는 세션 쿠키
-    UPLOAD_FOLDER = '/Users/NSHC_techwriter/git/minicommunity/minicommunity/resource/upload/'
+    UPLOAD_FOLDER = 'resource/upload/'

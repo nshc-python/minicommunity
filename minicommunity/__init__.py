@@ -2,6 +2,7 @@
 
 import os
 from flask import Flask
+from werkzeug import SharedDataMiddleware
 
 def create_app(config_filepath='resource/config.cfg'):
     minicommunity_app = Flask(__name__)
@@ -41,6 +42,9 @@ def create_app(config_filepath='resource/config.cfg'):
     # app.session_interface에 RedisCacheSessionInterface를 할당
     from minicommunity.minicommunity_cache_session import SimpleCacheSessionInterface
     minicommunity_app.session_interface = SimpleCacheSessionInterface()
+    
+    #minicommunity_app.add_url_rule('/anonybbs/uploads/<picturename>', 'uploaded_file', build_only=True)
+    #minicommunity_app.wsgi_app = SharedDataMiddleware(minicommunity_app.wsgi_app, {'/anonybbs/uploads': minicommunity_app.config['UPLOAD_FOLDER']})
     
     # 공통으로 적용할 HTTP 404과 500 에러 핸들러를 설정
 #     photolog_app.error_handler_spec[None][404] = not_found

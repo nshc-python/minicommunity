@@ -114,7 +114,7 @@ def write_content(): #게시글을 DB에 저장하기
 
 @minicommunity.route('/anonybbs/uploads/<picturename>')
 def uploaded_file(picturename):
-    Log.debug('pictureupload3')
+    Log.debug('pictureupload3:'+picturename)
     return send_from_directory(current_app.config['UPLOAD_FOLDER'],
                                picturename)
 
